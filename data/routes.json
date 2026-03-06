@@ -1,0 +1,170 @@
+[
+  {
+    "id": "shinjuku-to-golden-gai",
+    "title": "สถานี Shinjuku → Golden Gai",
+    "description": "เส้นทางจากสถานี JR Shinjuku ทางออกฝั่งตะวันออก ไปยัง Golden Gai ย่านบาร์เล็กๆ สุดเก๋ ซอกซอยเยอะหาทางยาก",
+    "city": "tokyo",
+    "difficulty": "medium",
+    "estimatedMinutes": 12,
+    "distanceMeters": 800,
+    "coverImage": "/images/sample/golden-gai-cover.jpg",
+    "start": {
+      "lat": 35.6896,
+      "lng": 139.7006,
+      "name": "สถานี JR Shinjuku (ทางออกฝั่งตะวันออก)"
+    },
+    "end": {
+      "lat": 35.6938,
+      "lng": 139.7036,
+      "name": "Golden Gai"
+    },
+    "steps": [
+      {
+        "order": 1,
+        "instruction": "ออกจากสถานี JR Shinjuku ทางออก East Exit (東口) จะเจอลานกว้างด้านหน้า มีจอ LED ขนาดใหญ่อยู่ตรงข้าม",
+        "location": { "lat": 35.6896, "lng": 139.7006, "name": "Shinjuku East Exit" },
+        "note": "ถ้าขึ้นจาก JR ให้ตามป้าย East Exit / 東口"
+      },
+      {
+        "order": 2,
+        "instruction": "เดินตรงไปตามถนน Shinjuku-dori ผ่านร้าน Studio Alta (ตึกสีชมพู) อยู่ทางซ้ายมือ",
+        "location": { "lat": 35.6906, "lng": 139.7014, "name": "Studio Alta" },
+        "distanceFromPrev": 120
+      },
+      {
+        "order": 3,
+        "instruction": "เดินต่อตรงไปจะผ่านทางเข้า Kabukicho ทางขวามือ จะเห็นป้ายซุ้มประตูใหญ่ Kabukicho Ichibangai",
+        "location": { "lat": 35.6925, "lng": 139.7028, "name": "ซุ้มประตู Kabukicho" },
+        "distanceFromPrev": 250
+      },
+      {
+        "order": 4,
+        "instruction": "เลี้ยวขวาเข้าซุ้มประตู Kabukicho เดินตรงไปตามถนน Kabukicho ผ่านร้าน Don Quijote (ตึกสีเหลืองมีชิงช้าสวรรค์เล็กๆ)",
+        "location": { "lat": 35.6932, "lng": 139.7034, "name": "Don Quijote Shinjuku" },
+        "distanceFromPrev": 100
+      },
+      {
+        "order": 5,
+        "instruction": "เดินต่อตรงไปอีกประมาณ 100 เมตร จะเจอทางแยก เลี้ยวซ้ายเข้าซอยเล็กๆ จะเห็นร้านบาร์เล็กๆ เรียงกัน นั่นคือ Golden Gai!",
+        "location": { "lat": 35.6938, "lng": 139.7036, "name": "Golden Gai" },
+        "distanceFromPrev": 130,
+        "note": "Golden Gai มีหลายซอย ซอยแรกที่เจอคือทางเข้าด้านใต้"
+      }
+    ],
+    "tags": ["nightlife", "bars", "shinjuku", "kabukicho"]
+  },
+  {
+    "id": "kyoto-station-to-fushimi-inari-walk",
+    "title": "สถานี Kyoto → Fushimi Inari (เดินเท้า)",
+    "description": "เส้นทางเดินเท้าจากสถานี JR Kyoto ไป Fushimi Inari Taisha ศาลเจ้าพันโทริอิ ผ่านย่านเมืองเก่า",
+    "city": "kyoto",
+    "difficulty": "hard",
+    "estimatedMinutes": 45,
+    "distanceMeters": 3500,
+    "coverImage": "/images/sample/fushimi-inari-cover.jpg",
+    "start": {
+      "lat": 34.9856,
+      "lng": 135.7584,
+      "name": "สถานี JR Kyoto"
+    },
+    "end": {
+      "lat": 34.9671,
+      "lng": 135.7727,
+      "name": "Fushimi Inari Taisha"
+    },
+    "steps": [
+      {
+        "order": 1,
+        "instruction": "ออกจากสถานี JR Kyoto ทางออกด้าน Hachijo (南側/ด้านใต้) จะเจอลานกว้างพร้อมสถานีขนส่ง",
+        "location": { "lat": 34.9847, "lng": 135.7584, "name": "Kyoto Station Hachijo Exit" },
+        "note": "ทางออก Hachijo อยู่ฝั่งตรงข้ามกับ Kyoto Tower"
+      },
+      {
+        "order": 2,
+        "instruction": "เดินตรงออกจากสถานี ข้ามถนน Hachijo-dori แล้วเลี้ยวซ้ายเดินไปตามทางเท้า ผ่านโรงแรมหลายแห่ง",
+        "location": { "lat": 34.9835, "lng": 135.7600, "name": "ถนน Hachijo-dori" },
+        "distanceFromPrev": 200
+      },
+      {
+        "order": 3,
+        "instruction": "เลี้ยวขวาเข้าถนน Takeda-kaido เดินตรงไปทางทิศใต้ จะผ่านย่านที่พักและวัดเล็กๆ ระหว่างทาง",
+        "location": { "lat": 34.9790, "lng": 135.7620, "name": "ถนน Takeda-kaido" },
+        "distanceFromPrev": 550
+      },
+      {
+        "order": 4,
+        "instruction": "เดินตรงต่อไปจะผ่านสถานี Tofukuji ทางซ้ายมือ (สถานีรถไฟ JR/Keihan) ข้ามทางรถไฟแล้วเดินต่อ",
+        "location": { "lat": 34.9760, "lng": 135.7660, "name": "สถานี Tofukuji" },
+        "distanceFromPrev": 500
+      },
+      {
+        "order": 5,
+        "instruction": "เดินต่อตามถนนหลักไปทางทิศตะวันออกเฉียงใต้ จะเริ่มเห็นป้ายบอกทาง Fushimi Inari เป็นระยะ",
+        "location": { "lat": 34.9720, "lng": 135.7690, "name": "ทางเข้าย่าน Fushimi" },
+        "distanceFromPrev": 600
+      },
+      {
+        "order": 6,
+        "instruction": "เดินตรงต่อไปจะเจอทางแยก เลี้ยวขวาเข้าถนนที่มีร้านขายของฝากเรียงราย นี่คือถนนทางเข้า Fushimi Inari",
+        "location": { "lat": 34.9685, "lng": 135.7715, "name": "ถนนร้านค้า Fushimi Inari" },
+        "distanceFromPrev": 500
+      },
+      {
+        "order": 7,
+        "instruction": "เดินตรงไปตามถนนร้านค้า จะเห็นเสาโทริอิสีแดงขนาดใหญ่อยู่ตรงหน้า ถึง Fushimi Inari Taisha แล้ว!",
+        "location": { "lat": 34.9671, "lng": 135.7727, "name": "Fushimi Inari Taisha" },
+        "distanceFromPrev": 200,
+        "note": "โทริอิสีแดงจะเรียงกันเป็นพัน ถ้าจะขึ้นไปบนเขาใช้เวลาประมาณ 2-3 ชั่วโมง"
+      }
+    ],
+    "tags": ["shrine", "walking", "sightseeing", "fushimi-inari"]
+  },
+  {
+    "id": "namba-to-dotonbori",
+    "title": "สถานี Namba → Dotonbori",
+    "description": "เส้นทางจากสถานี Namba ไปถนน Dotonbori ย่านอาหารและช้อปปิ้งชื่อดังของโอซาก้า ป้าย Glico Man อยู่ที่นี่",
+    "city": "osaka",
+    "difficulty": "easy",
+    "estimatedMinutes": 8,
+    "distanceMeters": 500,
+    "coverImage": "/images/sample/dotonbori-cover.jpg",
+    "start": {
+      "lat": 34.6658,
+      "lng": 135.5013,
+      "name": "สถานี Namba (ทางออก 14)"
+    },
+    "end": {
+      "lat": 34.6687,
+      "lng": 135.5019,
+      "name": "Dotonbori (ป้าย Glico Man)"
+    },
+    "steps": [
+      {
+        "order": 1,
+        "instruction": "ออกจากสถานี Namba ทางออกหมายเลข 14 จะอยู่บนถนน Midosuji มีต้นแปะก๊วยเรียงตามทาง",
+        "location": { "lat": 34.6658, "lng": 135.5013, "name": "Namba Exit 14" },
+        "note": "ทางออก 14 อยู่ใกล้กับ Takashimaya department store"
+      },
+      {
+        "order": 2,
+        "instruction": "เดินตรงไปทางทิศเหนือตามถนน Midosuji ผ่าน Takashimaya ทางขวามือ",
+        "location": { "lat": 34.6668, "lng": 135.5015, "name": "Takashimaya Osaka" },
+        "distanceFromPrev": 120
+      },
+      {
+        "order": 3,
+        "instruction": "เดินต่อตรงไปจะเห็นสะพานข้ามคลอง Dotonbori เลี้ยวขวาเข้าถนน Dotonbori ทันทีหลังข้ามสะพาน",
+        "location": { "lat": 34.6680, "lng": 135.5017, "name": "สะพาน Dotonbori" },
+        "distanceFromPrev": 150
+      },
+      {
+        "order": 4,
+        "instruction": "เดินตรงไปตามถนน Dotonbori จะเห็นป้ายไฟนีออนเต็มไปหมด ป้าย Glico Man (คนวิ่ง) จะอยู่ด้านซ้ายมือริมคลอง",
+        "location": { "lat": 34.6687, "lng": 135.5019, "name": "Glico Man Sign" },
+        "distanceFromPrev": 100,
+        "note": "จุดถ่ายรูปป้าย Glico Man อยู่บนสะพาน Ebisu-bashi"
+      }
+    ],
+    "tags": ["food", "shopping", "dotonbori", "namba", "nightlife"]
+  }
+]

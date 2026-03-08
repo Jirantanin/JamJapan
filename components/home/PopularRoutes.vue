@@ -2,7 +2,7 @@
 const { t } = useI18n()
 const { fetchPopularRoutes } = useRoutes()
 
-const { data: popularData } = await fetchPopularRoutes(6)
+const { data: popularData, pending } = fetchPopularRoutes(6)
 const popularRoutes = computed(() => popularData.value?.routes || [])
 </script>
 
@@ -23,7 +23,12 @@ const popularRoutes = computed(() => popularData.value?.routes || [])
       </NuxtLink>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Loading skeleton -->
+    <div v-if="pending" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div v-for="i in 6" :key="i" class="h-64 bg-gray-100 rounded-2xl animate-pulse" />
+    </div>
+
+    <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <RouteCard
         v-for="route in popularRoutes"
         :key="route.id"

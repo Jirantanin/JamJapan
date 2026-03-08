@@ -2,7 +2,7 @@
 const { t } = useI18n()
 const { fetchCities } = useRoutes()
 
-const { data: citiesData } = await fetchCities()
+const { data: citiesData, pending: citiesPending } = fetchCities()
 </script>
 
 <template>
@@ -14,7 +14,11 @@ const { data: citiesData } = await fetchCities()
       <h2 class="text-xl font-bold text-gray-900 mb-6">
         เลือกตามเมือง
       </h2>
-      <div class="flex flex-wrap gap-3">
+      <!-- Loading skeleton -->
+      <div v-if="citiesPending" class="flex flex-wrap gap-3">
+        <div v-for="i in 5" :key="i" class="h-10 w-28 bg-gray-100 rounded-full animate-pulse" />
+      </div>
+      <div v-else class="flex flex-wrap gap-3">
         <NuxtLink
           v-for="item in citiesData"
           :key="item.city"

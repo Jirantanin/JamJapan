@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
 
   // Check auth
   const session = await getUserSession(event)
-  if (!session?.user || (session.user as any).role !== 'ADMIN') {
+  if (!session?.user || session.user.role !== 'ADMIN') {
     throw createError({
       statusCode: 401,
       statusMessage: 'Unauthorized: Admin access required',

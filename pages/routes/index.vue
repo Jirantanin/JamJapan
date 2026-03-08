@@ -9,7 +9,7 @@ const selectedDifficulty = ref<Difficulty | 'all'>('all')
 
 const { fetchRoutes } = useRoutes()
 
-const { data: routesData } = await fetchRoutes({
+const { data: routesData, pending, error } = fetchRoutes({
   city: selectedCity,
   difficulty: selectedDifficulty,
 })
@@ -65,8 +65,18 @@ const difficulties: (Difficulty | 'all')[] = ['all', 'easy', 'medium', 'hard']
       </div>
     </div>
 
+    <!-- Error -->
+    <div v-if="error" class="text-center py-16 text-red-400">
+      <p>{{ t('error.loadFailed') }}</p>
+    </div>
+
+    <!-- Loading skeleton -->
+    <div v-else-if="pending" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div v-for="i in 6" :key="i" class="h-64 bg-gray-100 rounded-2xl animate-pulse" />
+    </div>
+
     <!-- Route Grid -->
-    <div v-if="displayRoutes.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div v-else-if="displayRoutes.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <RouteCard
         v-for="r in displayRoutes"
         :key="r.id"
@@ -74,6 +84,7 @@ const difficulties: (Difficulty | 'all')[] = ['all', 'easy', 'medium', 'hard']
       />
     </div>
 
+    <!-- Empty state -->
     <div v-else class="text-center py-16 text-gray-400">
       <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />

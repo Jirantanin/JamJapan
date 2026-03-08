@@ -1,12 +1,13 @@
 import getPrisma from '../../utils/prisma'
 import { transformRoute } from '../../utils/transform'
+import { updateRouteSchema } from '../../utils/validate'
 
 export default defineEventHandler(async (event) => {
   const prisma = await getPrisma()
 
   // Check auth
   const session = await getUserSession(event)
-  if (!session?.user || (session.user as any).role !== 'ADMIN') {
+  if (!session?.user || session.user.role !== 'ADMIN') {
     throw createError({
       statusCode: 401,
       statusMessage: 'Unauthorized: Admin access required',
@@ -29,7 +30,16 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const body = await readBody(event)
+  const result = updateRouteSchema.safeParse(await readBody(event))
+  if (!result.success) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: result.error.errors
+        .map(e => `${e.path.join('.')}: ${e.message}`)
+        .join(', '),
+    })
+  }
+  const body = result.data
 
   // Update route
   const route = await prisma.route.update({
@@ -61,7 +71,7 @@ export default defineEventHandler(async (event) => {
   if (body.steps) {
     await prisma.step.deleteMany({ where: { routeId: id } })
     await prisma.step.createMany({
-      data: body.steps.map((step: any) => ({
+      data: body.steps.map(step => ({
         order: step.order,
         instruction: step.instruction,
         image: step.image || null,

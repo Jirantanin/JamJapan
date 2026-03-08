@@ -1,30 +1,29 @@
 import getPrisma from '../../utils/prisma'
 import { transformRoute } from '../../utils/transform'
+import { createRouteSchema } from '../../utils/validate'
 
 export default defineEventHandler(async (event) => {
   const prisma = await getPrisma()
 
   // Check auth
   const session = await getUserSession(event)
-  if (!session?.user || (session.user as any).role !== 'ADMIN') {
+  if (!session?.user || session.user.role !== 'ADMIN') {
     throw createError({
       statusCode: 401,
       statusMessage: 'Unauthorized: Admin access required',
     })
   }
 
-  const body = await readBody(event)
-
-  // Validate required fields
-  const required = ['id', 'title', 'description', 'city', 'difficulty', 'estimatedMinutes', 'distanceMeters', 'start', 'end', 'steps']
-  for (const field of required) {
-    if (!body[field]) {
-      throw createError({
-        statusCode: 400,
-        statusMessage: `Missing required field: ${field}`,
-      })
-    }
+  const result = createRouteSchema.safeParse(await readBody(event))
+  if (!result.success) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: result.error.errors
+        .map(e => `${e.path.join('.')}: ${e.message}`)
+        .join(', '),
+    })
   }
+  const body = result.data
 
   // Check if route already exists
   const existing = await prisma.route.findUnique({ where: { id: body.id } })
@@ -51,10 +50,10 @@ export default defineEventHandler(async (event) => {
       endLat: body.end.lat,
       endLng: body.end.lng,
       endName: body.end.name || null,
-      tags: JSON.stringify(body.tags || []),
-      createdById: (session.user as any).id,
+      tags: JSON.stringify(body.tags),
+      createdById: session.user.id,
       steps: {
-        create: body.steps.map((step: any) => ({
+        create: body.steps.map(step => ({
           order: step.order,
           instruction: step.instruction,
           image: step.image || null,

@@ -1,0 +1,66 @@
+// Production schema — PostgreSQL (Railway)
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id         String   @id @default(cuid())
+  email      String   @unique
+  name       String?
+  avatar     String?
+  role       String   @default("USER") // "USER" | "ADMIN"
+  provider   String
+  providerId String
+  routes     Route[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([provider, providerId])
+}
+
+model Route {
+  id               String   @id // slug เช่น "shinjuku-to-golden-gai"
+  title            String
+  description      String
+  city             String
+  difficulty       String
+  estimatedMinutes Int
+  distanceMeters   Int
+  coverImage       String?
+  startLat         Float
+  startLng         Float
+  startName        String?
+  endLat           Float
+  endLng           Float
+  endName          String?
+  tags             String   @default("[]") // JSON string
+  steps            Step[]
+  createdBy        User?    @relation(fields: [createdById], references: [id])
+  createdById      String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([city])
+  @@index([difficulty])
+}
+
+model Step {
+  id               String  @id @default(cuid())
+  order            Int
+  instruction      String
+  image            String?
+  locationLat      Float
+  locationLng      Float
+  locationName     String?
+  distanceFromPrev Int?
+  note             String?
+  route            Route   @relation(fields: [routeId], references: [id], onDelete: Cascade)
+  routeId          String
+
+  @@index([routeId])
+}

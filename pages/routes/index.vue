@@ -7,34 +7,14 @@ const route = useRoute()
 const selectedCity = ref<City | 'all'>((route.query.city as City) || 'all')
 const selectedDifficulty = ref<Difficulty | 'all'>('all')
 
-const { filterRoutes } = useRoutes()
+const { fetchRoutes } = useRoutes()
 
-const filteredRoutes = filterRoutes({
-  city: selectedCity.value,
-  difficulty: selectedDifficulty.value,
+const { data: routesData } = await fetchRoutes({
+  city: selectedCity,
+  difficulty: selectedDifficulty,
 })
 
-// Re-filter when selections change
-watch([selectedCity, selectedDifficulty], () => {
-  // filterRoutes returns a computed, so we need to re-create it
-  // For simplicity in Phase 1A, we handle this with a direct computed
-})
-
-const { routes: allRoutes } = useRoutes()
-
-const displayRoutes = computed(() => {
-  let result = allRoutes.value
-
-  if (selectedCity.value !== 'all') {
-    result = result.filter(r => r.city === selectedCity.value)
-  }
-
-  if (selectedDifficulty.value !== 'all') {
-    result = result.filter(r => r.difficulty === selectedDifficulty.value)
-  }
-
-  return result
-})
+const displayRoutes = computed(() => routesData.value?.routes || [])
 
 const cities: (City | 'all')[] = ['all', 'tokyo', 'osaka', 'kyoto', 'nara', 'fukuoka', 'sapporo', 'hiroshima']
 const difficulties: (Difficulty | 'all')[] = ['all', 'easy', 'medium', 'hard']

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 const { t } = useI18n()
-const { getCities } = useRoutes()
+const { fetchCities } = useRoutes()
 
-const cities = getCities()
+const { data: citiesData } = await fetchCities()
 </script>
 
 <template>
@@ -16,12 +16,12 @@ const cities = getCities()
       </h2>
       <div class="flex flex-wrap gap-3">
         <NuxtLink
-          v-for="city in cities"
-          :key="city"
-          :to="{ path: '/routes', query: { city } }"
+          v-for="item in citiesData"
+          :key="item.city"
+          :to="{ path: '/routes', query: { city: item.city } }"
           class="px-5 py-2.5 bg-white rounded-full shadow-sm hover:shadow-md border border-gray-200 hover:border-primary-300 text-gray-700 hover:text-primary-600 transition-all font-medium text-sm"
         >
-          {{ t(`city.${city}`) }}
+          {{ t(`city.${item.city}`) }} ({{ item.count }})
         </NuxtLink>
       </div>
     </section>

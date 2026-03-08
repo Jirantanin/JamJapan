@@ -1,54 +1,56 @@
 import type { Route, City, Difficulty } from '~/types/route'
-import routesData from '~/data/routes.json'
 
 export function useRoutes() {
-  const routes = ref<Route[]>(routesData as Route[])
+  // Fetch routes from API with optional filters
+  function fetchRoutes(options?: {
+    city?: Ref<City | 'all'> | City | 'all'
+    difficulty?: Ref<Difficulty | 'all'> | Difficulty | 'all'
+    query?: Ref<string> | string
+    page?: Ref<number> | number
+    limit?: number
+  }) {
+    const params = computed(() => {
+      const p: Record<string, string> = {}
+      const city = unref(options?.city)
+      const difficulty = unref(options?.difficulty)
+      const query = unref(options?.query)
+      const page = unref(options?.page)
 
-  function getRouteById(id: string): Route | undefined {
-    return routes.value.find(r => r.id === id)
-  }
+      if (city && city !== 'all') p.city = city
+      if (difficulty && difficulty !== 'all') p.difficulty = difficulty
+      if (query) p.q = query
+      if (page) p.page = String(page)
+      if (options?.limit) p.limit = String(options.limit)
 
-  function filterRoutes(options?: { city?: City | 'all'; difficulty?: Difficulty | 'all'; query?: string }) {
-    return computed(() => {
-      let result = routes.value
+      return p
+    })
 
-      if (options?.city && options.city !== 'all') {
-        result = result.filter(r => r.city === options.city)
-      }
-
-      if (options?.difficulty && options.difficulty !== 'all') {
-        result = result.filter(r => r.difficulty === options.difficulty)
-      }
-
-      if (options?.query) {
-        const q = options.query.toLowerCase()
-        result = result.filter(r =>
-          r.title.toLowerCase().includes(q)
-          || r.description.toLowerCase().includes(q)
-          || r.tags.some(t => t.toLowerCase().includes(q))
-          || r.start.name?.toLowerCase().includes(q)
-          || r.end.name?.toLowerCase().includes(q)
-        )
-      }
-
-      return result
+    return useFetch<{ routes: Route[]; total: number; page: number; limit: number }>('/api/routes', {
+      params,
     })
   }
 
-  function getPopularRoutes(count = 6) {
-    return routes.value.slice(0, count)
+  // Fetch single route by ID
+  function fetchRouteById(id: string) {
+    return useFetch<Route>(`/api/routes/${id}`)
   }
 
-  function getCities(): City[] {
-    const cities = new Set(routes.value.map(r => r.city))
-    return Array.from(cities) as City[]
+  // Fetch popular routes (first N)
+  function fetchPopularRoutes(count = 6) {
+    return useFetch<{ routes: Route[] }>('/api/routes', {
+      params: { limit: String(count) },
+    })
+  }
+
+  // Fetch cities with counts
+  function fetchCities() {
+    return useFetch<{ city: string; count: number }[]>('/api/cities')
   }
 
   return {
-    routes,
-    getRouteById,
-    filterRoutes,
-    getPopularRoutes,
-    getCities,
+    fetchRoutes,
+    fetchRouteById,
+    fetchPopularRoutes,
+    fetchCities,
   }
 }

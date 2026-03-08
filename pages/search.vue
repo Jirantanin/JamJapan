@@ -1,23 +1,15 @@
 <script setup lang="ts">
 const { t } = useI18n()
 const route = useRoute()
+const { fetchRoutes } = useRoutes()
 
 const query = computed(() => (route.query.q as string) || '')
-const { routes: allRoutes } = useRoutes()
 
-const results = computed(() => {
-  if (!query.value) return []
-
-  const q = query.value.toLowerCase()
-  return allRoutes.value.filter(r =>
-    r.title.toLowerCase().includes(q)
-    || r.description.toLowerCase().includes(q)
-    || r.tags.some(tag => tag.toLowerCase().includes(q))
-    || r.start.name?.toLowerCase().includes(q)
-    || r.end.name?.toLowerCase().includes(q)
-    || r.city.toLowerCase().includes(q)
-  )
+const { data: searchData } = await fetchRoutes({
+  query,
 })
+
+const results = computed(() => searchData.value?.routes || [])
 </script>
 
 <template>

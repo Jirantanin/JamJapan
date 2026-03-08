@@ -6,6 +6,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/tailwindcss',
     '@nuxtjs/i18n',
+    'nuxt-auth-utils',
   ],
 
   i18n: {
@@ -16,6 +17,16 @@ export default defineNuxtConfig({
     lazy: true,
     langDir: 'locales',
     strategy: 'prefix_except_default',
+  },
+
+  runtimeConfig: {
+    sessionPassword: '',
+    oauth: {
+      google: {
+        clientId: '',
+        clientSecret: '',
+      },
+    },
   },
 
   vite: {

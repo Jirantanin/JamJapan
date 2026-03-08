@@ -1,8 +1,9 @@
 <script setup lang="ts">
 const { t } = useI18n()
-const { getPopularRoutes } = useRoutes()
+const { fetchPopularRoutes } = useRoutes()
 
-const popularRoutes = getPopularRoutes(6)
+const { data: popularData } = await fetchPopularRoutes(6)
+const popularRoutes = computed(() => popularData.value?.routes || [])
 </script>
 
 <template>

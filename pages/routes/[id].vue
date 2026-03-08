@@ -1,12 +1,12 @@
 <script setup lang="ts">
 const { t } = useI18n()
 const routeParam = useRoute()
-const { getRouteById } = useRoutes()
+const { fetchRouteById } = useRoutes()
 const { activeStepIndex, mapCenter, mapZoom, setActiveStep, fitBounds } = useMapSync()
 
-const routeData = getRouteById(routeParam.params.id as string)
+const { data: routeData, error } = await fetchRouteById(routeParam.params.id as string)
 
-if (!routeData) {
+if (error.value || !routeData.value) {
   throw createError({
     statusCode: 404,
     statusMessage: 'Route not found',
@@ -14,11 +14,11 @@ if (!routeData) {
 }
 
 // Set initial map view to fit all steps
-const allLocations = routeData.steps.map(s => s.location)
+const allLocations = routeData.value.steps.map(s => s.location)
 fitBounds(allLocations)
 
 function handleStepClick(step: any) {
-  const index = routeData!.steps.findIndex(s => s.order === step.order)
+  const index = routeData.value!.steps.findIndex(s => s.order === step.order)
   setActiveStep(index, step.location)
 }
 

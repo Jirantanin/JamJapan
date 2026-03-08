@@ -1,0 +1,86 @@
+import getPrisma from '../../utils/prisma'
+import { transformRoute } from '../../utils/transform'
+
+export default defineEventHandler(async (event) => {
+  const prisma = await getPrisma()
+
+  // Check auth
+  const session = await getUserSession(event)
+  if (!session?.user || (session.user as any).role !== 'ADMIN') {
+    throw createError({
+      statusCode: 401,
+      statusMessage: 'Unauthorized: Admin access required',
+    })
+  }
+
+  const id = getRouterParam(event, 'id')
+  if (!id) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Route ID is required',
+    })
+  }
+
+  const existing = await prisma.route.findUnique({ where: { id } })
+  if (!existing) {
+    throw createError({
+      statusCode: 404,
+      statusMessage: 'Route not found',
+    })
+  }
+
+  const body = await readBody(event)
+
+  // Update route
+  const route = await prisma.route.update({
+    where: { id },
+    data: {
+      ...(body.title && { title: body.title }),
+      ...(body.description && { description: body.description }),
+      ...(body.city && { city: body.city }),
+      ...(body.difficulty && { difficulty: body.difficulty }),
+      ...(body.estimatedMinutes && { estimatedMinutes: body.estimatedMinutes }),
+      ...(body.distanceMeters && { distanceMeters: body.distanceMeters }),
+      ...(body.coverImage !== undefined && { coverImage: body.coverImage }),
+      ...(body.start && {
+        startLat: body.start.lat,
+        startLng: body.start.lng,
+        startName: body.start.name || null,
+      }),
+      ...(body.end && {
+        endLat: body.end.lat,
+        endLng: body.end.lng,
+        endName: body.end.name || null,
+      }),
+      ...(body.tags && { tags: JSON.stringify(body.tags) }),
+    },
+    include: { steps: true },
+  })
+
+  // Update steps if provided (replace all)
+  if (body.steps) {
+    await prisma.step.deleteMany({ where: { routeId: id } })
+    await prisma.step.createMany({
+      data: body.steps.map((step: any) => ({
+        order: step.order,
+        instruction: step.instruction,
+        image: step.image || null,
+        locationLat: step.location.lat,
+        locationLng: step.location.lng,
+        locationName: step.location.name || null,
+        distanceFromPrev: step.distanceFromPrev || null,
+        note: step.note || null,
+        routeId: id,
+      })),
+    })
+
+    // Re-fetch with updated steps
+    const updated = await prisma.route.findUnique({
+      where: { id },
+      include: { steps: true },
+    })
+    return transformRoute(updated!)
+  }
+
+  return transformRoute(route)
+})

@@ -13,7 +13,7 @@
     "db:reset": "cross-env NODE_ENV=development prisma db push --force-reset && cross-env NODE_ENV=development npx tsx prisma/seed.ts"
   },
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=22.12.0"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"

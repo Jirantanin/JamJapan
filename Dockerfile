@@ -18,5 +18,7 @@ COPY . .
 ENV NODE_ENV=production
 RUN npm run build
 
-# Apply schema to DB then start
-CMD ["sh", "-c", "npx prisma db push && node .output/server/index.mjs"]
+# Make start script executable (strip Windows CRLF if needed) and run it
+COPY start.sh ./
+RUN sed -i 's/\r//' start.sh && chmod +x start.sh
+CMD ["./start.sh"]

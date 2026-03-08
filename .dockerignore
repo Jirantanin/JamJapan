@@ -5,3 +5,4 @@ node_modules
 *.md
 prisma/dev.db
 prisma/dev.db-journal
+generated/

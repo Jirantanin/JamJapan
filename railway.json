@@ -4,8 +4,9 @@
     "builder": "DOCKERFILE"
   },
   "deploy": {
-    "startCommand": "npx prisma db push && node .output/server/index.mjs",
-    "healthcheckPath": "/api/cities",
+    "startCommand": "./start.sh",
+    "healthcheckPath": "/",
+    "healthcheckTimeout": 300,
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 3
   }

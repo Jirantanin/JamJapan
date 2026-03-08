@@ -1,0 +1,25 @@
+{
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(npx nuxi@latest init . --packageManager npm --force --template v3)",
+      "Bash(npm install @nuxtjs/tailwindcss @nuxtjs/i18n @vue-leaflet/vue-leaflet leaflet)",
+      "Bash(npm install -D @types/leaflet)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(ls /c/Users/66984/workspace-coding/JamJapan/node_modules/.bin/nuxt*)",
+      "Bash(npx nuxt dev --port 3000)",
+      "Bash(netstat -ano)",
+      "Bash(taskkill //PID 41580 //F)",
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(curl -s -H \"Connection: keep-alive\" -H \"Accept: text/html\" http://localhost:3000/)",
+      "Bash(curl -s --http1.1 -H \"Accept: text/html,application/xhtml+xml\" http://localhost:3000/)",
+      "Bash(tasklist //FI \"PID eq 43044\")",
+      "Bash(wmic process where \"processid=43044\" get commandline)",
+      "Bash(git status -u)",
+      "Bash(npm install prisma @prisma/client nuxt-auth-utils)",
+      "mcp__Desktop_Commander__list_directory"
+    ]
+  }
+}

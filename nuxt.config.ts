@@ -29,6 +29,10 @@ export default defineNuxtConfig({
     },
   },
 
+  nitro: {
+    preset: 'node-server',
+  },
+
   vite: {
     server: {
       hmr: {

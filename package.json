@@ -30,7 +30,8 @@
     "pg": "^8.20.0",
     "prisma": "^7.4.2",
     "vue": "^3.5.29",
-    "vue-router": "^4.6.4"
+    "vue-router": "^4.6.4",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",

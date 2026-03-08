@@ -1,0 +1,8 @@
+node_modules
+.nuxt
+.output
+.git
+*.md
+prisma/dev.db
+prisma/dev.db-journal
+generated/

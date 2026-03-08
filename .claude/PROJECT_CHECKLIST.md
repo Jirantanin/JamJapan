@@ -1,6 +1,6 @@
 # JamJapan — Project Checklist (งานจริง)
 
-> อัพเดทล่าสุด: 2026-03-08
+> อัพเดทล่าสุด: 2026-03-09
 > Legend: ✅ Done | 🔄 In Progress | ❌ Not Started
 
 ---
@@ -22,6 +22,7 @@
 ### Infrastructure
 - ✅ Tech stack กำหนดแล้ว (Nuxt 3, Prisma, PostgreSQL, Railway)
 - ✅ Dual-schema (SQLite dev / PostgreSQL prod)
+- ✅ Dockerfile + Railway deploy config
 - ❌ Architecture diagram (C4 model หรือ simple diagram)
 - ❌ CDN setup (static assets)
 - ❌ Image storage (S3 / Cloudinary) — ตอนนี้รูปยัง placeholder
@@ -64,8 +65,8 @@
 - ✅ GET /api/auth/google (OAuth)
 
 ### API Quality
-- ❌ Standard error format `{ error, message, statusCode }` ทุก endpoint
-- ❌ Input validation (Zod schema) ทุก POST/PUT endpoint
+- ✅ Input validation (Zod schema) สำหรับ POST/PUT endpoints
+- ✅ Auth utility (requireAuth, requireAdmin) — 401/403 แยกชัดเจน
 - ❌ API versioning (/api/v1/...)
 - ❌ Rate limiting (ป้องกัน abuse)
 - ❌ API documentation (Swagger / OpenAPI)
@@ -78,11 +79,11 @@
 
 ### Authentication & Authorization
 - ✅ Google OAuth (nuxt-auth-utils)
-- ✅ Session management
+- ✅ Session management + session expiry (7 วัน)
 - ✅ Role: USER / ADMIN ใน DB
-- ❌ Auth middleware ป้องกัน admin API routes
-- ❌ Admin role assignment flow (ใครเป็นคนให้ ADMIN role?)
-- ❌ Session expiry กำหนด
+- ✅ Auth utility functions (requireAuth, requireAdmin) ป้องกัน admin API routes
+- ✅ Admin role assignment flow (NUXT_ADMIN_EMAILS env var)
+- ❌ Google OAuth credentials จริง (ต้องเพิ่ม redirect URI ใน Google Cloud Console)
 
 ### Data Protection
 - ✅ SQL Injection protection (Prisma ORM)
@@ -95,8 +96,8 @@
 ### Secrets Management
 - ✅ .env ไม่ commit (อยู่ใน .gitignore)
 - ✅ .env.example มีแล้ว
+- ✅ Production secrets ใน Railway env vars
 - ❌ Secrets rotation plan
-- ❌ Production secrets ใน Railway env vars (ยังไม่ deploy)
 
 ---
 
@@ -126,14 +127,17 @@
 ## 7. 🚀 Deployment & DevOps
 
 ### Production Setup
-- ❌ Railway project setup
-- ❌ PostgreSQL plugin ใน Railway
-- ❌ Environment variables ใน Railway
-- ❌ Build command: `prisma generate && prisma db push && nuxt build`
-- ❌ Domain setup (custom domain?)
+- ✅ Railway project setup (JamJapan)
+- ✅ PostgreSQL plugin ใน Railway
+- ✅ Environment variables ใน Railway (DATABASE_URL, OAuth, session)
+- ✅ Dockerfile builder (FROM node:22)
+- ✅ start.sh (prisma db push + seed + exec node)
+- ✅ Healthcheck configured (/)
+- ✅ Public domain: jamjapan-production.up.railway.app
+- ❌ Custom domain
+- ❌ Auto-deploy on push to `main`
 
 ### CI/CD Pipeline
-- ❌ Auto-deploy on push to `main`
 - ❌ Staging environment (optional)
 - ❌ Database migration strategy (prisma migrate vs db push)
 
@@ -159,31 +163,31 @@
 
 - ✅ Responsive design (mobile-first)
 - ✅ Thai language (i18n)
-- ❌ Loading states ทุก async operation
-- ❌ Error states (API ล้มเหลว แสดงอะไร?)
-- ❌ Empty states (search ไม่เจอ แสดงอะไร?)
+- ✅ Loading states ทุก async operation
+- ✅ Error states (API ล้มเหลว แสดง banner)
+- ✅ Empty states (search ไม่เจอ แสดง message)
 - ❌ Offline support (PWA?)
 - ❌ Accessibility audit (WCAG 2.1)
 - ❌ English language support
 
 ---
 
-## Priority สำหรับ Phase ถัดไป
+## Phase 2 Completion Status
 
-### 🔴 ก่อน Deploy Production (Critical)
-- [ ] Auth middleware ป้องกัน admin routes
-- [ ] Input validation (Zod) ทุก POST/PUT
-- [ ] Standard error format
-- [ ] Railway deployment + PostgreSQL
-- [ ] Google OAuth credentials จริง
+### ✅ เสร็จแล้ว (Critical)
+- [x] Auth utility (requireAuth/requireAdmin) — 401/403 แยกชัดเจน
+- [x] Admin role assignment (NUXT_ADMIN_EMAILS env var auto-assign)
+- [x] Session expiry (7 วัน)
+- [x] Input validation (Zod) ทุก POST/PUT
+- [x] Railway deployment + PostgreSQL + seeded data
+- [x] Loading/Error/Empty states ทุกหน้า
 
-### 🟡 หลัง Deploy (Important)
+### 🟡 ทำเอง (Important)
+- [ ] Google OAuth redirect URI ใน Google Cloud Console
 - [ ] Image storage (Cloudinary)
-- [ ] Error tracking (Sentry)
-- [ ] Uptime monitoring
-- [ ] Loading/Error/Empty states
 
 ### 🟢 Phase 3+ (Nice to Have)
+- [ ] Admin panel UI
 - [ ] Tests (Vitest + Playwright)
 - [ ] CI/CD (GitHub Actions)
 - [ ] API documentation

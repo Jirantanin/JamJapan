@@ -1,18 +1,11 @@
 import getPrisma from '../../utils/prisma'
 import { transformRoute } from '../../utils/transform'
 import { updateRouteSchema } from '../../utils/validate'
+import { requireAdmin } from '../../utils/auth'
 
 export default defineEventHandler(async (event) => {
+  await requireAdmin(event)
   const prisma = await getPrisma()
-
-  // Check auth
-  const session = await getUserSession(event)
-  if (!session?.user || session.user.role !== 'ADMIN') {
-    throw createError({
-      statusCode: 401,
-      statusMessage: 'Unauthorized: Admin access required',
-    })
-  }
 
   const id = getRouterParam(event, 'id')
   if (!id) {

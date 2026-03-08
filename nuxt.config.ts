@@ -20,6 +20,9 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
+    session: {
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+    },
     sessionPassword: '',
     oauth: {
       google: {

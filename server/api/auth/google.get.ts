@@ -35,6 +35,19 @@ export default defineOAuthGoogleEventHandler({
       })
     }
 
+    // Auto-assign admin role by email
+    const adminEmails = (process.env.NUXT_ADMIN_EMAILS || '')
+      .split(',')
+      .map(e => e.trim().toLowerCase())
+      .filter(Boolean)
+
+    if (adminEmails.includes(user.email.toLowerCase()) && user.role !== 'ADMIN') {
+      user = await prisma.user.update({
+        where: { id: user.id },
+        data: { role: 'ADMIN' },
+      })
+    }
+
     // Set session
     await setUserSession(event, {
       user: {

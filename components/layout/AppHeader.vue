@@ -63,6 +63,14 @@ async function handleLogout() {
                 <p class="text-sm font-medium text-gray-900 truncate">{{ user.name }}</p>
                 <p class="text-xs text-gray-500 truncate">{{ user.email }}</p>
               </div>
+              <NuxtLink
+                v-if="user.role === 'ADMIN'"
+                to="/admin"
+                class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary-600"
+                @click="userMenuOpen = false"
+              >
+                {{ t('nav.admin') }}
+              </NuxtLink>
               <button
                 class="w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary-600"
                 @click="handleLogout"
@@ -139,6 +147,14 @@ async function handleLogout() {
               <p class="text-xs text-gray-500">{{ user.email }}</p>
             </div>
           </div>
+          <NuxtLink
+            v-if="user.role === 'ADMIN'"
+            to="/admin"
+            class="block px-3 py-2 rounded-md text-gray-600 hover:bg-primary-50 hover:text-primary-600"
+            @click="mobileMenuOpen = false"
+          >
+            {{ t('nav.admin') }}
+          </NuxtLink>
           <button
             class="block w-full text-left px-3 py-2 rounded-md text-gray-600 hover:bg-primary-50 hover:text-primary-600"
             @click="handleLogout(); mobileMenuOpen = false"

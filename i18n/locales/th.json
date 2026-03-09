@@ -7,7 +7,8 @@
   "nav": {
     "home": "หน้าแรก",
     "routes": "เส้นทาง",
-    "search": "ค้นหา"
+    "search": "ค้นหา",
+    "admin": "จัดการระบบ"
   },
   "hero": {
     "title": "หาทางเดินในญี่ปุ่น",
@@ -64,5 +65,69 @@
   "footer": {
     "description": "แนะนำเส้นทางเดินเท้าในญี่ปุ่นที่หาทางยาก พร้อม step-by-step และแผนที่",
     "copyright": "© 2026 JamJapan. สงวนลิขสิทธิ์."
+  },
+  "admin": {
+    "panel": "Admin Panel",
+    "backToSite": "กลับหน้าเว็บ",
+    "dashboard": "แดชบอร์ด",
+    "routeManagement": "จัดการเส้นทาง",
+    "createRoute": "สร้างเส้นทางใหม่",
+    "editRoute": "แก้ไขเส้นทาง",
+    "deleteRoute": "ลบเส้นทาง",
+    "deleteConfirm": "คุณต้องการลบเส้นทาง \"{title}\" หรือไม่?",
+    "deleteWarning": "การดำเนินการนี้ไม่สามารถย้อนกลับได้",
+    "save": "บันทึก",
+    "saving": "กำลังบันทึก...",
+    "cancel": "ยกเลิก",
+    "confirm": "ยืนยัน",
+    "back": "กลับ",
+    "totalRoutes": "เส้นทางทั้งหมด",
+    "totalCities": "เมืองทั้งหมด",
+    "recentRoutes": "เส้นทางล่าสุด",
+    "noRoutes": "ยังไม่มีเส้นทาง",
+    "actions": "การดำเนินการ",
+    "edit": "แก้ไข",
+    "delete": "ลบ",
+    "view": "ดู",
+    "form": {
+      "basicInfo": "ข้อมูลพื้นฐาน",
+      "id": "Slug ID",
+      "idHelp": "ใช้เป็น URL เช่น shinjuku-to-golden-gai",
+      "title": "ชื่อเส้นทาง",
+      "description": "คำอธิบาย",
+      "city": "เมือง",
+      "selectCity": "เลือกเมือง",
+      "difficulty": "ระดับความยาก",
+      "selectDifficulty": "เลือกระดับความยาก",
+      "estimatedMinutes": "เวลาโดยประมาณ (นาที)",
+      "distanceMeters": "ระยะทาง (เมตร)",
+      "coverImage": "URL รูปปก",
+      "location": "ตำแหน่ง",
+      "startPoint": "จุดเริ่มต้น",
+      "endPoint": "จุดหมาย",
+      "clickMap": "คลิกบนแผนที่เพื่อเลือกตำแหน่ง",
+      "locationName": "ชื่อสถานที่",
+      "tags": "แท็ก",
+      "tagsHelp": "กด Enter เพื่อเพิ่มแท็ก",
+      "steps": "ขั้นตอน",
+      "addStep": "เพิ่มขั้นตอน",
+      "instruction": "คำแนะนำ",
+      "stepImage": "URL รูปประกอบ",
+      "distanceFromPrev": "ระยะจาก step ก่อนหน้า (เมตร)",
+      "note": "หมายเหตุ"
+    },
+    "toast": {
+      "createSuccess": "สร้างเส้นทางสำเร็จ",
+      "updateSuccess": "อัปเดตเส้นทางสำเร็จ",
+      "deleteSuccess": "ลบเส้นทางสำเร็จ",
+      "error": "เกิดข้อผิดพลาด กรุณาลองอีกครั้ง"
+    },
+    "validation": {
+      "required": "กรุณากรอกข้อมูล",
+      "invalidSlug": "ใช้ได้เฉพาะ a-z, 0-9 และ - (kebab-case)",
+      "minSteps": "ต้องมีอย่างน้อย 1 ขั้นตอน",
+      "selectLocation": "กรุณาเลือกตำแหน่งบนแผนที่",
+      "positiveNumber": "ต้องเป็นจำนวนเต็มบวก"
+    }
   }
 }

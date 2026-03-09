@@ -47,5 +47,17 @@ export const updateRouteSchema = z.object({
   steps: z.array(stepSchema).optional(),
 })
 
+export const createRouteRequestSchema = z.object({
+  title: z.string().min(1).max(200),
+  description: z.string().min(1).max(1000),
+  city: z.enum(CITIES),
+  startPoint: z.string().min(1).max(200),
+  endPoint: z.string().min(1).max(200),
+})
+
+export const updateRouteRequestSchema = createRouteRequestSchema.partial()
+
 export type CreateRouteInput = z.infer<typeof createRouteSchema>
 export type UpdateRouteInput = z.infer<typeof updateRouteSchema>
+export type CreateRouteRequestInput = z.infer<typeof createRouteRequestSchema>
+export type UpdateRouteRequestInput = z.infer<typeof updateRouteRequestSchema>

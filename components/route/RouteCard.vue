@@ -16,6 +16,9 @@ const { t } = useI18n()
     <!-- Cover Image -->
     <div class="aspect-video bg-gray-200 relative overflow-hidden">
       <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+      <div class="absolute top-3 right-3 z-10">
+        <RouteSourceBadge :source="route.source" />
+      </div>
       <div class="absolute bottom-3 left-3 right-3">
         <CommonDifficultyBadge :difficulty="route.difficulty" />
       </div>

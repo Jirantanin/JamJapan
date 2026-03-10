@@ -61,6 +61,8 @@ async function main() {
         endLng: route.end.lng,
         endName: route.end.name || null,
         tags: JSON.stringify(route.tags),
+        status: 'published',
+        source: 'official',
         steps: {
           create: route.steps.map(step => ({
             order: step.order,

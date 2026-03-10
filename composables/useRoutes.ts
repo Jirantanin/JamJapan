@@ -5,6 +5,7 @@ export function useRoutes() {
   function fetchRoutes(options?: {
     city?: Ref<City | 'all'> | City | 'all'
     difficulty?: Ref<Difficulty | 'all'> | Difficulty | 'all'
+    source?: Ref<string> | string
     query?: Ref<string> | string
     page?: Ref<number> | number
     limit?: number
@@ -13,11 +14,13 @@ export function useRoutes() {
       const p: Record<string, string> = {}
       const city = unref(options?.city)
       const difficulty = unref(options?.difficulty)
+      const source = unref(options?.source)
       const query = unref(options?.query)
       const page = unref(options?.page)
 
       if (city && city !== 'all') p.city = city
       if (difficulty && difficulty !== 'all') p.difficulty = difficulty
+      if (source && source !== 'all') p.source = source
       if (query) p.q = query
       if (page) p.page = String(page)
       if (options?.limit) p.limit = String(options.limit)

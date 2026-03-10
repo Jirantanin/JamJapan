@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import type { City, Difficulty } from '~/types/route'
+import type { City, Difficulty, RouteSource } from '~/types/route'
 
 const { t } = useI18n()
 const route = useRoute()
 
 const selectedCity = ref<City | 'all'>((route.query.city as City) || 'all')
 const selectedDifficulty = ref<Difficulty | 'all'>('all')
+const selectedSource = ref<RouteSource | 'all'>('all')
 
 const { fetchRoutes } = useRoutes()
 
 const { data: routesData, pending, error } = fetchRoutes({
   city: selectedCity,
   difficulty: selectedDifficulty,
+  source: selectedSource,
 })
 
 const displayRoutes = computed(() => routesData.value?.routes || [])
@@ -60,6 +62,24 @@ const difficulties: (Difficulty | 'all')[] = ['all', 'easy', 'medium', 'hard']
             @click="selectedDifficulty = diff"
           >
             {{ diff === 'all' ? t('filter.all') : t(`difficulty.${diff}`) }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Source filter -->
+      <div>
+        <label class="block text-sm font-medium text-gray-600 mb-1">ประเภท</label>
+        <div class="flex flex-wrap gap-2">
+          <button
+            v-for="src in ['all', 'official', 'community'] as const"
+            :key="src"
+            class="px-3 py-1.5 rounded-full text-sm font-medium transition-colors"
+            :class="selectedSource === src
+              ? 'bg-primary-600 text-white'
+              : 'bg-white text-gray-600 border border-gray-200 hover:border-primary-300'"
+            @click="selectedSource = src"
+          >
+            {{ src === 'all' ? 'ทั้งหมด' : src === 'official' ? 'Official' : 'Community' }}
           </button>
         </div>
       </div>

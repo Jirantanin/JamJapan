@@ -32,3 +32,20 @@ export async function requireAdmin(event: H3Event): Promise<User> {
 
   return user
 }
+
+/**
+ * Require that the user is the owner of the resource OR is an admin.
+ * Throws 401 if not logged in, 403 if not owner and not admin.
+ */
+export async function requireOwnerOrAdmin(
+  event: H3Event,
+  resourceOwnerId: string | null | undefined
+): Promise<User> {
+  const user = await requireAuth(event)
+  if (user.role === 'ADMIN') return user
+  if (resourceOwnerId && user.id === resourceOwnerId) return user
+  throw createError({
+    statusCode: 403,
+    statusMessage: 'Forbidden: You can only modify your own resources',
+  })
+}

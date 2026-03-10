@@ -36,6 +36,12 @@ async function handleLogout() {
           >
             {{ t('nav.routes') }}
           </NuxtLink>
+          <NuxtLink
+            to="/route-requests"
+            class="text-gray-600 hover:text-primary-600 transition-colors font-medium"
+          >
+            คำขอเส้นทาง
+          </NuxtLink>
 
           <!-- Auth: Login or User menu -->
           <div v-if="loggedIn && user" class="relative">
@@ -63,6 +69,20 @@ async function handleLogout() {
                 <p class="text-sm font-medium text-gray-900 truncate">{{ user.name }}</p>
                 <p class="text-xs text-gray-500 truncate">{{ user.email }}</p>
               </div>
+              <NuxtLink
+                to="/my/routes"
+                class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary-600"
+                @click="userMenuOpen = false"
+              >
+                เส้นทางของฉัน
+              </NuxtLink>
+              <NuxtLink
+                to="/routes/create"
+                class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary-600"
+                @click="userMenuOpen = false"
+              >
+                สร้างเส้นทาง
+              </NuxtLink>
               <NuxtLink
                 v-if="user.role === 'ADMIN'"
                 to="/admin"
@@ -132,6 +152,13 @@ async function handleLogout() {
         >
           {{ t('nav.routes') }}
         </NuxtLink>
+        <NuxtLink
+          to="/route-requests"
+          class="block px-3 py-2 rounded-md text-gray-600 hover:bg-primary-50 hover:text-primary-600"
+          @click="mobileMenuOpen = false"
+        >
+          คำขอเส้นทาง
+        </NuxtLink>
 
         <!-- Mobile Auth -->
         <div v-if="loggedIn && user" class="border-t border-gray-100 pt-2 mt-2">
@@ -147,6 +174,20 @@ async function handleLogout() {
               <p class="text-xs text-gray-500">{{ user.email }}</p>
             </div>
           </div>
+          <NuxtLink
+            to="/my/routes"
+            class="block px-3 py-2 rounded-md text-gray-600 hover:bg-primary-50 hover:text-primary-600"
+            @click="mobileMenuOpen = false"
+          >
+            เส้นทางของฉัน
+          </NuxtLink>
+          <NuxtLink
+            to="/routes/create"
+            class="block px-3 py-2 rounded-md text-gray-600 hover:bg-primary-50 hover:text-primary-600"
+            @click="mobileMenuOpen = false"
+          >
+            สร้างเส้นทาง
+          </NuxtLink>
           <NuxtLink
             v-if="user.role === 'ADMIN'"
             to="/admin"

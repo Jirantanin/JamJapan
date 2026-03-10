@@ -1,8 +1,7 @@
 import getPrisma from '../../utils/prisma'
-import { requireAdmin } from '../../utils/auth'
+import { requireOwnerOrAdmin } from '../../utils/auth'
 
 export default defineEventHandler(async (event) => {
-  await requireAdmin(event)
   const prisma = await getPrisma()
 
   const id = getRouterParam(event, 'id')
@@ -20,6 +19,8 @@ export default defineEventHandler(async (event) => {
       statusMessage: 'Route not found',
     })
   }
+
+  await requireOwnerOrAdmin(event, existing.createdById)
 
   // Steps will be cascade deleted
   await prisma.route.delete({ where: { id } })

@@ -1,10 +1,9 @@
 import getPrisma from '../../utils/prisma'
 import { transformRoute } from '../../utils/transform'
 import { updateRouteSchema } from '../../utils/validate'
-import { requireAdmin } from '../../utils/auth'
+import { requireOwnerOrAdmin } from '../../utils/auth'
 
 export default defineEventHandler(async (event) => {
-  await requireAdmin(event)
   const prisma = await getPrisma()
 
   const id = getRouterParam(event, 'id')
@@ -22,6 +21,8 @@ export default defineEventHandler(async (event) => {
       statusMessage: 'Route not found',
     })
   }
+
+  const user = await requireOwnerOrAdmin(event, existing.createdById)
 
   const result = updateRouteSchema.safeParse(await readBody(event))
   if (!result.success) {
@@ -57,7 +58,7 @@ export default defineEventHandler(async (event) => {
       }),
       ...(body.tags && { tags: JSON.stringify(body.tags) }),
     },
-    include: { steps: true },
+    include: { steps: true, createdBy: { select: { id: true, name: true, avatar: true } } },
   })
 
   // Update steps if provided (replace all)
@@ -80,7 +81,7 @@ export default defineEventHandler(async (event) => {
     // Re-fetch with updated steps
     const updated = await prisma.route.findUnique({
       where: { id },
-      include: { steps: true },
+      include: { steps: true, createdBy: { select: { id: true, name: true, avatar: true } } },
     })
     return transformRoute(updated!)
   }

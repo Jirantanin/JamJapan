@@ -12,8 +12,9 @@ export default defineEventHandler(async (event) => {
   if (!result.success) {
     throw createError({
       statusCode: 400,
-      statusMessage: result.error.errors
-        .map(e => `${e.path.join('.')}: ${e.message}`)
+      statusMessage: result.error.issues
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .map((e: any) => `${e.path.join('.')}: ${e.message}`)
         .join(', '),
     })
   }

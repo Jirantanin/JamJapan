@@ -9,6 +9,7 @@ const { createRoute, updateRoute } = useAdminRoutes()
 const props = defineProps<{
   mode: 'create' | 'edit'
   initialRoute?: Route
+  redirectTo?: string
 }>()
 
 const { form, errors, stepErrors, saving, validate, toCreatePayload, toUpdatePayload, slugify } =
@@ -49,7 +50,7 @@ async function handleSubmit() {
       await updateRoute(props.initialRoute!.id, toUpdatePayload())
       toast.success(t('admin.toast.updateSuccess'))
     }
-    router.push('/admin/routes')
+    router.push(props.redirectTo || '/admin/routes')
   } catch (err: any) {
     const message = err?.data?.statusMessage || err?.message || t('admin.toast.error')
     toast.error(message)
@@ -228,7 +229,7 @@ function errorText(key: string) {
         {{ saving ? t('admin.saving') : t('admin.save') }}
       </button>
       <NuxtLink
-        to="/admin/routes"
+        :to="redirectTo || '/admin/routes'"
         class="px-6 py-2.5 text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium"
       >
         {{ t('admin.cancel') }}

@@ -1,18 +1,20 @@
 import getPrisma from '../../utils/prisma'
 import { transformRoute } from '../../utils/transform'
 import { createRouteSchema } from '../../utils/validate'
-import { requireAdmin } from '../../utils/auth'
+import { requireAuth } from '../../utils/auth'
 
 export default defineEventHandler(async (event) => {
-  const user = await requireAdmin(event)
+  const user = await requireAuth(event)
+  const isAdmin = user.role === 'ADMIN'
   const prisma = await getPrisma()
 
   const result = createRouteSchema.safeParse(await readBody(event))
   if (!result.success) {
     throw createError({
       statusCode: 400,
-      statusMessage: result.error.errors
-        .map(e => `${e.path.join('.')}: ${e.message}`)
+      statusMessage: result.error.issues
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .map((e: any) => `${e.path.join('.')}: ${e.message}`)
         .join(', '),
     })
   }
@@ -44,6 +46,8 @@ export default defineEventHandler(async (event) => {
       endLng: body.end.lng,
       endName: body.end.name || null,
       tags: JSON.stringify(body.tags),
+      status: isAdmin ? 'published' : 'draft',
+      source: isAdmin ? 'official' : 'community',
       createdById: user.id,
       steps: {
         create: body.steps.map(step => ({
@@ -58,7 +62,7 @@ export default defineEventHandler(async (event) => {
         })),
       },
     },
-    include: { steps: true },
+    include: { steps: true, createdBy: { select: { id: true, name: true, avatar: true } } },
   })
 
   return transformRoute(route)

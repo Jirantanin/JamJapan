@@ -9,16 +9,18 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(cuid())
-  email      String   @unique
-  name       String?
-  avatar     String?
-  role       String   @default("USER") // "USER" | "ADMIN"
-  provider   String
-  providerId String
-  routes     Route[]
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id            String         @id @default(cuid())
+  email         String         @unique
+  name          String?
+  avatar        String?
+  role          String         @default("USER") // "USER" | "ADMIN"
+  provider      String
+  providerId    String
+  routes        Route[]
+  routeRequests RouteRequest[]
+  votes         Vote[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 
   @@unique([provider, providerId])
 }
@@ -39,7 +41,10 @@ model Route {
   endLng           Float
   endName          String?
   tags             String   @default("[]") // JSON string
+  status           String   @default("published") // "draft" | "published" | "unpublished"
+  source           String   @default("official")  // "official" | "community"
   steps            Step[]
+  routeRequests    RouteRequest[]
   createdBy        User?    @relation(fields: [createdById], references: [id])
   createdById      String?
   createdAt        DateTime @default(now())
@@ -47,6 +52,8 @@ model Route {
 
   @@index([city])
   @@index([difficulty])
+  @@index([status])
+  @@index([source])
 }
 
 model Step {
@@ -63,4 +70,36 @@ model Step {
   routeId          String
 
   @@index([routeId])
+}
+
+model RouteRequest {
+  id               String   @id @default(cuid())
+  title            String
+  description      String
+  city             String
+  startPoint       String
+  endPoint         String
+  status           String   @default("pending") // "pending" | "fulfilled" | "closed"
+  voteCount        Int      @default(0)
+  votes            Vote[]
+  fulfilledRoute   Route?   @relation(fields: [fulfilledRouteId], references: [id])
+  fulfilledRouteId String?
+  createdBy        User     @relation(fields: [createdById], references: [id])
+  createdById      String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([status])
+  @@index([voteCount])
+}
+
+model Vote {
+  id             String       @id @default(cuid())
+  routeRequest   RouteRequest @relation(fields: [routeRequestId], references: [id], onDelete: Cascade)
+  routeRequestId String
+  user           User         @relation(fields: [userId], references: [id])
+  userId         String
+  createdAt      DateTime     @default(now())
+
+  @@unique([routeRequestId, userId])
 }

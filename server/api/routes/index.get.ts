@@ -12,8 +12,12 @@ export default defineEventHandler(async (event) => {
   const limit = Math.min(50, Math.max(1, parseInt(query.limit as string) || 12))
   const skip = (page - 1) * limit
 
+  const source = query.source as string | undefined
+
   // Build where clause
-  const where: any = {}
+  const where: any = {
+    status: 'published', // Only show published routes to public
+  }
 
   if (city && city !== 'all') {
     where.city = city
@@ -21,6 +25,10 @@ export default defineEventHandler(async (event) => {
 
   if (difficulty && difficulty !== 'all') {
     where.difficulty = difficulty
+  }
+
+  if (source && source !== 'all') {
+    where.source = source
   }
 
   if (q) {
@@ -38,7 +46,7 @@ export default defineEventHandler(async (event) => {
   const [routes, total] = await Promise.all([
     prisma.route.findMany({
       where,
-      include: { steps: true },
+      include: { steps: true, createdBy: { select: { id: true, name: true, avatar: true } } },
       orderBy: { createdAt: 'desc' },
       skip,
       take: limit,

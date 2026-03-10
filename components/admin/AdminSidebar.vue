@@ -8,6 +8,7 @@ const sidebarOpen = ref(false)
 const navItems = [
   { to: '/admin', label: () => t('admin.dashboard'), icon: '📊' },
   { to: '/admin/routes', label: () => t('admin.routeManagement'), icon: '🗺️' },
+  { to: '/admin/route-requests', label: () => t('admin.routeRequests'), icon: '📬' },
 ]
 
 function isActive(path: string) {

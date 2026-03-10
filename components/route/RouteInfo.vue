@@ -13,6 +13,11 @@ const { t } = useI18n()
     <h1 class="text-2xl font-bold text-gray-900">
       {{ route.title }}
     </h1>
+    <!-- Source badge + Creator info -->
+    <div class="flex items-center gap-3 mt-2">
+      <RouteSourceBadge :source="route.source" />
+      <RouteCreatorInfo v-if="route.createdBy" :creator="route.createdBy" size="sm" />
+    </div>
     <p class="text-gray-500 mt-2">
       {{ route.description }}
     </p>

@@ -71,6 +71,7 @@
     "backToSite": "กลับหน้าเว็บ",
     "dashboard": "แดชบอร์ด",
     "routeManagement": "จัดการเส้นทาง",
+    "routeRequests": "คำขอเส้นทาง",
     "createRoute": "สร้างเส้นทางใหม่",
     "editRoute": "แก้ไขเส้นทาง",
     "deleteRoute": "ลบเส้นทาง",

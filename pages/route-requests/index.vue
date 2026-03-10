@@ -1,0 +1,131 @@
+<script setup lang="ts">
+import type { City } from '~/types/route'
+
+const toast = useToast()
+const { loggedIn } = useUserSession()
+const { fetchRequests, toggleVote } = useRouteRequests()
+
+const selectedCity = ref<City | 'all'>('all')
+const selectedSort = ref('votes')
+const votingId = ref<string | null>(null)
+
+const { data, pending, error, refresh } = fetchRequests({
+  city: selectedCity,
+  sort: selectedSort,
+})
+
+const requests = computed(() => data.value?.requests || [])
+
+const cities: { value: City | 'all'; label: string }[] = [
+  { value: 'all', label: 'ทั้งหมด' },
+  { value: 'tokyo', label: 'โตเกียว' },
+  { value: 'osaka', label: 'โอซากะ' },
+  { value: 'kyoto', label: 'เกียวโต' },
+  { value: 'nara', label: 'นารา' },
+  { value: 'fukuoka', label: 'ฟุกุโอกะ' },
+  { value: 'sapporo', label: 'ซัปโปโร' },
+  { value: 'hiroshima', label: 'ฮิโรชิมา' },
+]
+
+const sortOptions = [
+  { value: 'votes', label: 'โหวตมากสุด' },
+  { value: 'newest', label: 'ใหม่ล่าสุด' },
+]
+
+async function handleVote(id: string) {
+  if (!loggedIn.value) {
+    toast.error('กรุณาเข้าสู่ระบบเพื่อโหวต')
+    return
+  }
+  votingId.value = id
+  try {
+    await toggleVote(id)
+    refresh()
+  } catch (err: any) {
+    toast.error(err?.data?.statusMessage || 'ไม่สามารถโหวตได้')
+  } finally {
+    votingId.value = null
+  }
+}
+</script>
+
+<template>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">คำขอเส้นทาง</h1>
+        <p class="text-sm text-gray-500 mt-1">โหวตเส้นทางที่อยากให้สร้าง</p>
+      </div>
+      <NuxtLink
+        v-if="loggedIn"
+        to="/route-requests/create"
+        class="inline-flex items-center gap-2 px-4 py-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        ขอเส้นทาง
+      </NuxtLink>
+    </div>
+
+    <!-- Filters -->
+    <div class="flex flex-wrap items-center gap-4 mb-6">
+      <div class="flex flex-wrap gap-2">
+        <button
+          v-for="city in cities"
+          :key="city.value"
+          class="px-3 py-1.5 rounded-full text-sm font-medium transition-colors"
+          :class="selectedCity === city.value
+            ? 'bg-primary-600 text-white'
+            : 'bg-white text-gray-600 border border-gray-200 hover:border-primary-300'"
+          @click="selectedCity = city.value"
+        >
+          {{ city.label }}
+        </button>
+      </div>
+      <select
+        v-model="selectedSort"
+        class="px-3 py-1.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500"
+      >
+        <option v-for="opt in sortOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
+      </select>
+    </div>
+
+    <!-- Loading -->
+    <div v-if="pending" class="space-y-4">
+      <div v-for="i in 5" :key="i" class="h-32 bg-gray-100 rounded-xl animate-pulse" />
+    </div>
+
+    <!-- Error -->
+    <div v-else-if="error" class="text-center py-16 text-red-400">
+      <p>ไม่สามารถโหลดข้อมูลได้</p>
+    </div>
+
+    <!-- List -->
+    <div v-else-if="requests.length > 0" class="space-y-4">
+      <RequestRequestCard
+        v-for="req in requests"
+        :key="req.id"
+        :request="req"
+        :voting-id="votingId"
+        @vote="handleVote"
+      />
+    </div>
+
+    <!-- Empty -->
+    <div v-else class="text-center py-16">
+      <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <p class="text-gray-400 mb-4">ยังไม่มีคำขอเส้นทาง</p>
+      <NuxtLink
+        v-if="loggedIn"
+        to="/route-requests/create"
+        class="inline-flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium"
+      >
+        เป็นคนแรกที่ขอเส้นทาง
+      </NuxtLink>
+    </div>
+  </div>
+</template>

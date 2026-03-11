@@ -47,6 +47,8 @@ async function handleSubmit() {
   try {
     await createRequest(form)
     toast.success('ส่งคำขอเส้นทางสำเร็จ')
+    // Clear Nuxt's data cache so the listing page fetches fresh data
+    await refreshNuxtData()
     router.push('/route-requests')
   } catch (err: any) {
     toast.error(err?.data?.statusMessage || 'เกิดข้อผิดพลาด')

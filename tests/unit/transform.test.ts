@@ -109,6 +109,69 @@ describe('transformRoute', () => {
     const result = transformRoute(mockPrismaRoute({ createdBy: null }))
     expect(result.createdBy).toBeNull()
   })
+
+  // 📌 SavedRoute (Bookmark) isSaved tests - Core bug fix verification
+  describe('isSaved calculation', () => {
+    it('returns isSaved=false when no currentUserId provided', () => {
+      const result = transformRoute(mockPrismaRoute({ savedBy: [{ userId: 'user-1' }] }))
+      expect(result.isSaved).toBe(false)
+    })
+
+    it('returns isSaved=false when currentUserId provided but savedBy is empty', () => {
+      const result = transformRoute(mockPrismaRoute({ savedBy: [] }), 'user-1')
+      expect(result.isSaved).toBe(false)
+    })
+
+    it('returns isSaved=true when currentUserId matches a savedBy entry', () => {
+      const result = transformRoute(
+        mockPrismaRoute({ savedBy: [{ userId: 'user-1' }, { userId: 'user-2' }] }),
+        'user-1'
+      )
+      expect(result.isSaved).toBe(true)
+    })
+
+    it('returns isSaved=false when currentUserId does not match any savedBy entry', () => {
+      const result = transformRoute(
+        mockPrismaRoute({ savedBy: [{ userId: 'user-1' }, { userId: 'user-2' }] }),
+        'user-3'
+      )
+      expect(result.isSaved).toBe(false)
+    })
+
+    it('returns isSaved=true when multiple users saved and currentUserId matches one', () => {
+      const result = transformRoute(
+        mockPrismaRoute({
+          savedBy: [
+            { userId: 'alice' },
+            { userId: 'bob' },
+            { userId: 'charlie' },
+          ],
+        }),
+        'bob'
+      )
+      expect(result.isSaved).toBe(true)
+    })
+
+    it('handles savedBy with different object structures', () => {
+      // Case 1: savedBy with id field too
+      const result1 = transformRoute(
+        mockPrismaRoute({
+          savedBy: [{ id: 'save-1', userId: 'user-1' }] as any,
+        }),
+        'user-1'
+      )
+      expect(result1.isSaved).toBe(true)
+
+      // Case 2: only userId field
+      const result2 = transformRoute(
+        mockPrismaRoute({
+          savedBy: [{ userId: 'user-2' }] as any,
+        }),
+        'user-2'
+      )
+      expect(result2.isSaved).toBe(true)
+    })
+  })
 })
 
 describe('transformReview', () => {

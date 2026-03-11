@@ -21,6 +21,10 @@ export default defineEventHandler(async (event) => {
   const prisma = await getPrisma()
   const query = getQuery(event)
 
+  // Get current user session for isSaved calculation
+  const session = await getUserSession(event).catch(() => null)
+  const currentUserId = (session?.user as any)?.id
+
   const city = query.city as string | undefined
   const difficulty = query.difficulty as string | undefined
   const q = query.q as string | undefined
@@ -62,7 +66,11 @@ export default defineEventHandler(async (event) => {
   const [routes, total] = await Promise.all([
     prisma.route.findMany({
       where,
-      include: { steps: true, createdBy: { select: { id: true, name: true, avatar: true } } },
+      include: {
+        steps: true,
+        createdBy: { select: { id: true, name: true, avatar: true } },
+        savedBy: true, // ✅ Fetch savedBy relationship for isSaved calculation
+      },
       orderBy: { createdAt: 'desc' },
       skip,
       take: limit,
@@ -71,7 +79,7 @@ export default defineEventHandler(async (event) => {
   ])
 
   return {
-    routes: routes.map(r => transformRoute(r)),
+    routes: routes.map(r => transformRoute(r, currentUserId)), // ✅ Pass currentUserId for isSaved calculation
     total,
     page,
     limit,

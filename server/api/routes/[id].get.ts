@@ -20,9 +20,18 @@ export default defineEventHandler(async (event) => {
     })
   }
 
+  // Get current user session early for both visibility check and isSaved calculation
+  const session = await getUserSession(event).catch(() => null)
+  const currentUserId = (session?.user as any)?.id
+  const userRole = (session?.user as any)?.role
+
   const route = await prisma.route.findUnique({
     where: { id },
-    include: { steps: true, createdBy: { select: { id: true, name: true, avatar: true } } },
+    include: {
+      steps: true,
+      createdBy: { select: { id: true, name: true, avatar: true } },
+      savedBy: true, // ✅ Fetch savedBy relationship for isSaved calculation
+    },
   })
 
   if (!route) {
@@ -34,14 +43,10 @@ export default defineEventHandler(async (event) => {
 
   // Visibility check: non-published routes only visible to owner or admin
   if (route.status !== 'published') {
-    const session = await getUserSession(event).catch(() => null)
-    const userId = (session?.user as any)?.id
-    const userRole = (session?.user as any)?.role
-
-    if (!userId || (userId !== route.createdById && userRole !== 'ADMIN')) {
+    if (!currentUserId || (currentUserId !== route.createdById && userRole !== 'ADMIN')) {
       throw createError({ statusCode: 404, statusMessage: 'Route not found' })
     }
   }
 
-  return transformRoute(route)
+  return transformRoute(route, currentUserId) // ✅ Pass currentUserId for isSaved calculation
 })

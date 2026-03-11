@@ -1,7 +1,10 @@
 # JamJapan — Project Checklist (งานจริง)
 
-> อัพเดทล่าสุด: 2026-03-10 (Phase 4 Complete!)
+> อัพเดทล่าสุด: 2026-03-11 (Phase 5 Complete!)
 > Legend: ✅ Done | 🔄 In Progress | ❌ Not Started
+>
+> ⚠️ **กฎสำคัญ**: ทุกครั้งที่ทำ feature / phase เสร็จ **ต้องอัพเดทไฟล์นี้ทันที** ก่อน commit
+> อัพเดท: วันที่, สถานะ items, และ Phase Completion Status ด้านล่าง
 
 ---
 
@@ -45,9 +48,9 @@
 
 ### Missing for Future Phases
 - ✅ RouteRequest model (Phase 4 — user ขอเส้นทาง) + Vote model
-- ❌ Review / Rating model (Phase 5)
-- ❌ SavedRoute model (Phase 5 — bookmark)
-- ❌ Photo model (Phase 5 — user-uploaded photos)
+- ✅ Review / Rating model (Phase 5) — rating 1-5, comment, unique per user per route
+- ✅ SavedRoute model (Phase 5 — bookmark) — toggle save, unique per user per route
+- ❌ Photo model (user-uploaded photos)
 - ❌ Tag model (many-to-many กับ Route)
 - ❌ Soft delete strategy (deletedAt field)
 - ❌ Audit log (ใครแก้อะไร เมื่อไหร่)
@@ -75,12 +78,20 @@
 - ✅ GET /api/auth/google (OAuth)
 - ✅ GET /api/admin/stats (admin dashboard stats + totalRequests + pendingRequests)
 
+### Endpoints (Phase 5 เพิ่ม)
+- ✅ GET /api/routes/:id/reviews (list reviews + pagination)
+- ✅ POST /api/routes/:id/reviews (create review, auth, 1 per user per route)
+- ✅ PUT /api/reviews/:id (owner update review)
+- ✅ DELETE /api/reviews/:id (owner-or-admin delete review)
+- ✅ POST /api/routes/:id/save (toggle save/unsave, auth)
+- ✅ GET /api/my/saved-routes (list saved routes, auth, paginated)
+
 ### API Quality
 - ✅ Input validation (Zod schema) สำหรับ POST/PUT endpoints
 - ✅ Auth utility (requireAuth, requireAdmin) — 401/403 แยกชัดเจน
+- ✅ Rate limiting per IP (H3 middleware, sliding window 60s)
+- ✅ API documentation (Nitro OpenAPI — /_openapi.json, /_swagger, /api-docs)
 - ❌ API versioning (/api/v1/...)
-- ❌ Rate limiting (ป้องกัน abuse)
-- ❌ API documentation (Swagger / OpenAPI)
 - ❌ Pagination response มี `hasNext`, `hasPrev` field
 - ❌ Response time SLA กำหนด (เช่น < 200ms)
 
@@ -101,9 +112,9 @@
 - ✅ SQL Injection protection (Prisma ORM)
 - ✅ XSS protection (Vue auto-escape)
 - ✅ CSRF protection (nuxt-auth-utils)
+- ✅ Rate limiting per IP (Phase 5 — server/middleware/rate-limit.ts)
 - ❌ Input sanitization (HTML strip ก่อน save)
 - ❌ Content Security Policy (CSP) headers
-- ❌ Rate limiting per IP
 
 ### Secrets Management
 - ✅ .env ไม่ commit (อยู่ใน .gitignore)
@@ -116,12 +127,13 @@
 ## 6. 🧪 Testing
 
 ### Unit Tests
-- ❌ Test setup (Vitest)
-- ❌ Business logic tests (transform.ts, filter logic)
-- ❌ API response format tests
+- ✅ Test setup (Vitest + vitest.config.ts)
+- ✅ transform.ts tests — 18 tests (transformRoute, transformReview, transformRouteRequest)
+- ✅ validate.ts tests — 21 tests (createRouteSchema, createReviewSchema, etc.)
+- ✅ **รวม 39 tests ผ่านทั้งหมด** (`npm test`)
 
 ### Integration Tests
-- ❌ API endpoint tests (Supertest / Nitro test)
+- ❌ API endpoint tests (Nitro test utils)
 - ❌ Database query tests
 
 ### E2E Tests
@@ -131,9 +143,10 @@
 - ❌ Admin panel flows (create/edit/delete route)
 
 ### CI
-- ❌ GitHub Actions: run tests on PR
-- ❌ GitHub Actions: lint check
-- ❌ Block merge if tests fail
+- ✅ GitHub Actions: typecheck on push/PR (.github/workflows/ci.yml)
+- ✅ GitHub Actions: build check on push/PR
+- ❌ Block merge if tests fail (ต้องตั้ง branch protection rules ใน GitHub)
+- ❌ GitHub Actions: run unit tests in CI (ต้องเพิ่ม `npm test` step)
 
 ---
 
@@ -151,8 +164,11 @@
 - ❌ Auto-deploy on push to `main`
 
 ### CI/CD Pipeline
+- ✅ GitHub Actions workflow (typecheck + build)
+- ❌ `npm test` step ใน CI (unit tests)
 - ❌ Staging environment (optional)
 - ❌ Database migration strategy (prisma migrate vs db push)
+- ❌ Auto-deploy on push to `main`
 
 ### Monitoring
 - ❌ Error tracking (Sentry หรือ similar)
@@ -237,11 +253,22 @@
 - [x] TypeScript fixes: Zod v4 .errors → .issues compatibility, Prisma client regenerated
 - [x] PR opened: https://github.com/Jirantanin/JamJapan/pull/4
 
-### Phase 5+ (Next)
-- [ ] Tests (Vitest + Playwright)
-- [ ] CI/CD (GitHub Actions)
-- [ ] API documentation (Swagger/OpenAPI)
-- [ ] Rate limiting
+### Phase 5 ✅ Production Readiness + New Features
+- [x] Review/Rating system: Review model + 4 API endpoints + StarRating/ReviewCard/ReviewSection components
+- [x] Saved Routes (bookmarks): SavedRoute model + toggle-save API + saved-routes listing + SaveButton + /my/saved page
+- [x] Rate limiting: H3 server middleware, sliding window per-IP, 429 + Retry-After headers
+- [x] Vitest unit tests: 39 tests pass (transform.ts + validate.ts)
+- [x] GitHub Actions CI: typecheck + build jobs on push/PR to master
+- [x] Nitro OpenAPI: /_openapi.json, /_swagger, /api-docs page
+- [x] TypeScript fixes: $fetch<T> generics, .map(transformRoute) → .map(r => transformRoute(r)), role cast
+- [x] Prisma schema updated + client regenerated (Review, SavedRoute, averageRating, reviewCount)
+- [x] PR opened: https://github.com/Jirantanin/JamJapan/pull/6
+
+### Phase 6+ (Next)
+- [ ] E2E tests (Playwright) — critical user flows
+- [ ] `npm test` step ใน GitHub Actions CI
+- [ ] Branch protection rules (block merge if CI fails)
 - [ ] Multi-country support
-- [ ] Review/Rating system
-- [ ] Saved routes (bookmarks)
+- [ ] Image upload pipeline (Cloudinary)
+- [ ] Google OAuth credentials จริง
+- [ ] Auto-deploy on push to main (Railway)

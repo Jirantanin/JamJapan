@@ -19,7 +19,9 @@
       "Bash(wmic process where \"processid=43044\" get commandline)",
       "Bash(git status -u)",
       "Bash(npm install prisma @prisma/client nuxt-auth-utils)",
-      "mcp__Desktop_Commander__list_directory"
+      "mcp__Desktop_Commander__list_directory",
+      "mcp__Desktop_Commander__read_file",
+      "Bash(wc -l /c/Users/66984/workspace-coding/JamJapan/server/api/routes/*.ts /c/Users/66984/workspace-coding/JamJapan/composables/*.ts)"
     ]
   }
 }

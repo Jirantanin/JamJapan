@@ -22,21 +22,21 @@ export function useMyRoutes() {
   }
 
   async function publishRoute(id: string): Promise<Route> {
-    return $fetch(`/api/routes/${id}/status`, {
+    return $fetch<Route>(`/api/routes/${id}/status`, {
       method: 'PUT',
       body: { status: 'published' },
     })
   }
 
   async function unpublishRoute(id: string): Promise<Route> {
-    return $fetch(`/api/routes/${id}/status`, {
+    return $fetch<Route>(`/api/routes/${id}/status`, {
       method: 'PUT',
       body: { status: 'draft' },
     })
   }
 
   async function deleteRoute(id: string): Promise<void> {
-    await $fetch(`/api/routes/${id}`, { method: 'DELETE' })
+    await $fetch<void>(`/api/routes/${id}`, { method: 'DELETE' })
   }
 
   return { fetchMyRoutes, publishRoute, unpublishRoute, deleteRoute }

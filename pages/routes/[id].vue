@@ -3,6 +3,7 @@ const { t } = useI18n()
 const routeParam = useRoute()
 const { fetchRouteById } = useRoutes()
 const { activeStepIndex, mapCenter, mapZoom, setActiveStep, fitBounds } = useMapSync()
+const { user } = useUserSession()
 
 const { data: routeData, pending, error } = fetchRouteById(routeParam.params.id as string)
 
@@ -67,7 +68,7 @@ function handleMarkerClick(index: number, step: any) {
       </NuxtLink>
 
       <!-- Route Info -->
-      <RouteInfo :route="routeData" />
+      <RouteInfo :route="routeData" :is-saved="routeData.isSaved" />
 
       <!-- Map + Steps layout -->
       <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -98,6 +99,8 @@ function handleMarkerClick(index: number, step: any) {
           </div>
         </div>
       </div>
+      <!-- Reviews -->
+      <RouteReviewSection :route-id="routeData.id" :current-user-id="user?.id" />
     </div>
   </div>
 </template>

@@ -10,10 +10,10 @@
 - ✅ Problem Statement กำหนดแล้ว (walking route guide สำหรับนักท่องเที่ยวในญี่ปุ่น)
 - ✅ Vision กำหนดแล้ว (community-driven, multi-country)
 - ✅ Phases วางแผนแล้ว (1-5)
-- ❌ User Stories เขียนอย่างเป็นทางการ (AS / I WANT / SO THAT)
-- ❌ Acceptance Criteria กำหนดต่อ feature
-- ❌ Out of Scope document
-- ❌ Competitive Analysis (เทียบกับ Google Maps, HyperDia ฯลฯ)
+- ✅ User Stories เขียนอย่างเป็นทางการ → [`.claude/docs/user-stories.md`](.claude/docs/user-stories.md)
+- ✅ Acceptance Criteria กำหนดต่อ feature → [`.claude/docs/acceptance-criteria.md`](.claude/docs/acceptance-criteria.md)
+- ✅ Out of Scope document → [`.claude/docs/out-of-scope.md`](.claude/docs/out-of-scope.md)
+- ✅ Competitive Analysis → [`.claude/docs/competitive-analysis.md`](.claude/docs/competitive-analysis.md)
 
 ---
 

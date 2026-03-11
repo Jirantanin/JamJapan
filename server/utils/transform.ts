@@ -1,7 +1,10 @@
 import type { Route as PrismaRoute, Step as PrismaStep } from '../../generated/prisma/client'
 
 // Transform Prisma flat model → nested frontend format
-export function transformRoute(route: PrismaRoute & { steps?: PrismaStep[]; createdBy?: any }) {
+export function transformRoute(
+  route: PrismaRoute & { steps?: PrismaStep[]; createdBy?: any; savedBy?: any[] },
+  currentUserId?: string
+) {
   return {
     id: route.id,
     title: route.title,
@@ -42,9 +45,27 @@ export function transformRoute(route: PrismaRoute & { steps?: PrismaStep[]; crea
     updatedAt: route.updatedAt,
     status: route.status,
     source: route.source,
+    averageRating: route.averageRating,
+    reviewCount: route.reviewCount,
+    isSaved: currentUserId && route.savedBy
+      ? route.savedBy.some((s: any) => s.userId === currentUserId)
+      : false,
     createdBy: route.createdBy
       ? { id: route.createdBy.id, name: route.createdBy.name, avatar: route.createdBy.avatar }
       : null,
+  }
+}
+
+export function transformReview(review: any) {
+  return {
+    id: review.id,
+    rating: review.rating,
+    comment: review.comment,
+    createdBy: review.user
+      ? { id: review.user.id, name: review.user.name, avatar: review.user.avatar }
+      : null,
+    createdAt: review.createdAt,
+    updatedAt: review.updatedAt,
   }
 }
 

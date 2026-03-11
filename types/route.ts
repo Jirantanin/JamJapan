@@ -21,6 +21,15 @@ export type RouteStatus = 'draft' | 'published' | 'unpublished'
 export type RouteSource = 'official' | 'community'
 export type RequestStatus = 'pending' | 'fulfilled' | 'closed'
 
+export interface Review {
+  id: string
+  rating: number
+  comment?: string
+  createdBy: { id: string; name: string; avatar?: string }
+  createdAt: string
+  updatedAt: string
+}
+
 export interface Route {
   id: string
   title: string
@@ -36,6 +45,9 @@ export interface Route {
   tags: string[]
   status: RouteStatus
   source: RouteSource
+  averageRating?: number
+  reviewCount?: number
+  isSaved?: boolean
   createdBy?: { id: string; name: string; avatar?: string }
   createdAt: string
   updatedAt: string

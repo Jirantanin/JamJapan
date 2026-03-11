@@ -14,6 +14,12 @@ const { data, pending, error, refresh } = fetchRequests({
   sort: selectedSort,
 })
 
+// Force re-fetch on every mount to avoid Nuxt's SSR payload cache serving stale data
+// after client-side navigation back from the create page
+onMounted(() => {
+  refresh()
+})
+
 const requests = computed(() => data.value?.requests || [])
 
 const cities: { value: City | 'all'; label: string }[] = [

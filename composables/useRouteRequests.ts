@@ -31,15 +31,15 @@ export function useRouteRequests() {
     startPoint: string
     endPoint: string
   }): Promise<RouteRequest> {
-    return $fetch('/api/route-requests', { method: 'POST', body: data })
+    return $fetch<RouteRequest>('/api/route-requests', { method: 'POST', body: data })
   }
 
   async function toggleVote(id: string): Promise<{ voted: boolean; voteCount: number }> {
-    return $fetch(`/api/route-requests/${id}/vote`, { method: 'POST' })
+    return $fetch<{ voted: boolean; voteCount: number }>(`/api/route-requests/${id}/vote`, { method: 'POST' })
   }
 
   async function deleteRequest(id: string): Promise<void> {
-    await $fetch(`/api/route-requests/${id}`, { method: 'DELETE' })
+    await $fetch<void>(`/api/route-requests/${id}`, { method: 'DELETE' })
   }
 
   return { fetchRequests, createRequest, toggleVote, deleteRequest }

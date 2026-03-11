@@ -14,7 +14,6 @@ export default defineNuxtConfig({
       { code: 'th', name: 'ไทย', file: 'th.json' },
     ],
     defaultLocale: 'th',
-    lazy: true,
     langDir: 'locales',
     strategy: 'prefix_except_default',
   },
@@ -34,6 +33,16 @@ export default defineNuxtConfig({
 
   nitro: {
     preset: 'node-server',
+    experimental: {
+      openAPI: true,
+    },
+    openAPI: {
+      meta: {
+        title: 'JamJapan API',
+        description: 'API สำหรับเว็บแนะนำเส้นทางเดินเท้าในญี่ปุ่น สำหรับนักท่องเที่ยวไทย',
+        version: '1.0.0',
+      },
+    },
   },
 
   vite: {

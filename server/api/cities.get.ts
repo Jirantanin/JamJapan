@@ -1,5 +1,13 @@
 import getPrisma from '../utils/prisma'
 
+defineRouteMeta({
+  openAPI: {
+    tags: ['cities'],
+    summary: 'List cities',
+    description: 'Get all cities with route counts',
+  },
+})
+
 export default defineEventHandler(async () => {
   const prisma = await getPrisma()
 

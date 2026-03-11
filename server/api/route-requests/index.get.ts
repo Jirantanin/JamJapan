@@ -1,6 +1,14 @@
 import getPrisma from '../../utils/prisma'
 import { transformRouteRequest } from '../../utils/transform'
 
+defineRouteMeta({
+  openAPI: {
+    tags: ['route-requests'],
+    summary: 'List route requests',
+    description: 'Get paginated list of route requests with voting info',
+  },
+})
+
 export default defineEventHandler(async (event) => {
   const prisma = await getPrisma()
   const query = getQuery(event)

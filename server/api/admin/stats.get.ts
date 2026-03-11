@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
     totalRoutes,
     byCity: byCity.map(c => ({ city: c.city, count: c._count.id })),
     byDifficulty: byDifficulty.map(d => ({ difficulty: d.difficulty, count: d._count.id })),
-    recentRoutes: recentRoutes.map(transformRoute),
+    recentRoutes: recentRoutes.map(r => transformRoute(r)),
     totalRequests,
     pendingRequests,
   }

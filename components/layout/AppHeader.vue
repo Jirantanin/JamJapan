@@ -77,6 +77,13 @@ async function handleLogout() {
                 เส้นทางของฉัน
               </NuxtLink>
               <NuxtLink
+                to="/my/saved"
+                class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary-600"
+                @click="userMenuOpen = false"
+              >
+                เส้นทางที่บันทึก
+              </NuxtLink>
+              <NuxtLink
                 to="/routes/create"
                 class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary-600"
                 @click="userMenuOpen = false"
@@ -180,6 +187,13 @@ async function handleLogout() {
             @click="mobileMenuOpen = false"
           >
             เส้นทางของฉัน
+          </NuxtLink>
+          <NuxtLink
+            to="/my/saved"
+            class="block px-3 py-2 rounded-md text-gray-600 hover:bg-primary-50 hover:text-primary-600"
+            @click="mobileMenuOpen = false"
+          >
+            เส้นทางที่บันทึก
           </NuxtLink>
           <NuxtLink
             to="/routes/create"

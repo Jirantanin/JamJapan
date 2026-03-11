@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
   ])
 
   return {
-    routes: routes.map(transformRoute),
+    routes: routes.map(r => transformRoute(r)),
     total,
     page,
     limit,

@@ -1,6 +1,14 @@
 import getPrisma from '../../utils/prisma'
 import { transformRoute } from '../../utils/transform'
 
+defineRouteMeta({
+  openAPI: {
+    tags: ['routes'],
+    summary: 'Get route by ID',
+    description: 'Get a single route with steps and reviews',
+  },
+})
+
 export default defineEventHandler(async (event) => {
   const prisma = await getPrisma()
   const id = getRouterParam(event, 'id')

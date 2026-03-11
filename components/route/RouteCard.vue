@@ -1,11 +1,23 @@
 <script setup lang="ts">
 import type { Route } from '~/types/route'
 
-defineProps<{
+const props = defineProps<{
   route: Route
+  isSaved?: boolean
 }>()
 
 const { t } = useI18n()
+const { loggedIn } = useUserSession()
+
+const savedState = ref(props.isSaved ?? props.route.isSaved ?? false)
+
+watch(() => props.isSaved, (v) => {
+  if (v !== undefined) savedState.value = v
+})
+
+function handleSaveToggle(saved: boolean) {
+  savedState.value = saved
+}
 </script>
 
 <template>
@@ -16,11 +28,23 @@ const { t } = useI18n()
     <!-- Cover Image -->
     <div class="aspect-video bg-gray-200 relative overflow-hidden">
       <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-      <div class="absolute top-3 right-3 z-10">
+      <div class="absolute top-3 right-3 z-10 flex items-center gap-1.5">
+        <RouteSaveButton
+          v-if="loggedIn"
+          :route-id="route.id"
+          :is-saved="savedState"
+          size="sm"
+          @toggle="handleSaveToggle"
+        />
         <RouteSourceBadge :source="route.source" />
       </div>
       <div class="absolute bottom-3 left-3 right-3">
         <CommonDifficultyBadge :difficulty="route.difficulty" />
+        <div v-if="route.reviewCount && route.reviewCount > 0" class="flex items-center gap-1 mt-1.5">
+          <RouteStarRating :model-value="Math.round(route.averageRating || 0)" :readonly="true" size="sm" />
+          <span class="text-xs text-white font-medium drop-shadow">{{ route.averageRating?.toFixed(1) }}</span>
+          <span class="text-xs text-white/70 drop-shadow">({{ route.reviewCount }})</span>
+        </div>
       </div>
       <!-- Placeholder when no image -->
       <div class="absolute inset-0 flex items-center justify-center text-gray-400">

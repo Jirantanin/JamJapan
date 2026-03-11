@@ -1,18 +1,35 @@
 <script setup lang="ts">
 import type { Route } from '~/types/route'
 
-defineProps<{
+const props = defineProps<{
   route: Route
+  isSaved?: boolean
 }>()
 
 const { t } = useI18n()
+const { loggedIn } = useUserSession()
+
+const savedState = ref(props.isSaved ?? props.route.isSaved ?? false)
+
+watch(() => props.isSaved, (v) => {
+  if (v !== undefined) savedState.value = v
+})
 </script>
 
 <template>
   <div class="bg-white rounded-xl shadow-sm p-6">
-    <h1 class="text-2xl font-bold text-gray-900">
-      {{ route.title }}
-    </h1>
+    <div class="flex items-start justify-between gap-3">
+      <h1 class="text-2xl font-bold text-gray-900">
+        {{ route.title }}
+      </h1>
+      <RouteSaveButton
+        v-if="loggedIn"
+        :route-id="route.id"
+        :is-saved="savedState"
+        size="md"
+        @toggle="(v) => savedState = v"
+      />
+    </div>
     <!-- Source badge + Creator info -->
     <div class="flex items-center gap-3 mt-2">
       <RouteSourceBadge :source="route.source" />

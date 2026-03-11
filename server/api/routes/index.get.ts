@@ -1,6 +1,22 @@
 import getPrisma from '../../utils/prisma'
 import { transformRoute } from '../../utils/transform'
 
+defineRouteMeta({
+  openAPI: {
+    tags: ['routes'],
+    summary: 'List routes',
+    description: 'Get paginated list of routes with optional filters',
+    parameters: [
+      { in: 'query', name: 'city', schema: { type: 'string' } },
+      { in: 'query', name: 'difficulty', schema: { type: 'string', enum: ['easy', 'medium', 'hard'] } },
+      { in: 'query', name: 'source', schema: { type: 'string', enum: ['official', 'community'] } },
+      { in: 'query', name: 'q', schema: { type: 'string' } },
+      { in: 'query', name: 'page', schema: { type: 'integer', default: 1 } },
+      { in: 'query', name: 'limit', schema: { type: 'integer', default: 12 } },
+    ],
+  },
+})
+
 export default defineEventHandler(async (event) => {
   const prisma = await getPrisma()
   const query = getQuery(event)
@@ -55,7 +71,7 @@ export default defineEventHandler(async (event) => {
   ])
 
   return {
-    routes: routes.map(transformRoute),
+    routes: routes.map(r => transformRoute(r)),
     total,
     page,
     limit,

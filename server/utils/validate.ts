@@ -57,6 +57,13 @@ export const createRouteRequestSchema = z.object({
 
 export const updateRouteRequestSchema = createRouteRequestSchema.partial()
 
+export const createReviewSchema = z.object({
+  rating: z.number().int().min(1).max(5),
+  comment: z.string().max(1000).optional(),
+})
+
+export const updateReviewSchema = createReviewSchema.partial()
+
 export type CreateRouteInput = z.infer<typeof createRouteSchema>
 export type UpdateRouteInput = z.infer<typeof updateRouteSchema>
 export type CreateRouteRequestInput = z.infer<typeof createRouteRequestSchema>

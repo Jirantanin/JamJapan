@@ -19,6 +19,8 @@ model User {
   routes        Route[]
   routeRequests RouteRequest[]
   votes         Vote[]
+  reviews       Review[]
+  savedRoutes   SavedRoute[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 
@@ -44,6 +46,10 @@ model Route {
   status           String   @default("published") // "draft" | "published" | "unpublished"
   source           String   @default("official")  // "official" | "community"
   steps            Step[]
+  reviews          Review[]
+  savedBy          SavedRoute[]
+  averageRating    Float    @default(0)
+  reviewCount      Int      @default(0)
   routeRequests    RouteRequest[]
   createdBy        User?    @relation(fields: [createdById], references: [id])
   createdById      String?
@@ -102,4 +108,31 @@ model Vote {
   createdAt      DateTime     @default(now())
 
   @@unique([routeRequestId, userId])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  rating    Int      // 1-5
+  comment   String?
+  route     Route    @relation(fields: [routeId], references: [id], onDelete: Cascade)
+  routeId   String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([routeId, userId])
+  @@index([routeId])
+}
+
+model SavedRoute {
+  id      String   @id @default(cuid())
+  route   Route    @relation(fields: [routeId], references: [id], onDelete: Cascade)
+  routeId String
+  user    User     @relation(fields: [userId], references: [id])
+  userId  String
+  savedAt DateTime @default(now())
+
+  @@unique([routeId, userId])
+  @@index([userId])
 }

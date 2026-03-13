@@ -12,7 +12,7 @@ const { data: citiesData, pending: citiesPending } = fetchCities()
     <!-- City Categories -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <h2 class="text-xl font-bold text-gray-900 mb-6">
-        เลือกตามเมือง
+        {{ t('home.citySection') }}
       </h2>
       <!-- Loading skeleton -->
       <div v-if="citiesPending" class="flex flex-wrap gap-3">

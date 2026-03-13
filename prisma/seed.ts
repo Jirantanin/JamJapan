@@ -82,6 +82,32 @@ async function main() {
   }
 
   console.log(`\nSeeded ${routesData.length} routes successfully!`)
+
+  // Seed SiteConfig defaults
+  const siteConfigDefaults = [
+    { key: 'pagination.defaultLimit', value: '12' },
+    { key: 'pagination.maxLimit', value: '50' },
+    { key: 'map.defaultCenterLat', value: '35.6762' },
+    { key: 'map.defaultCenterLng', value: '139.6503' },
+    { key: 'map.defaultZoom', value: '14' },
+    { key: 'map.stepZoom', value: '17' },
+    { key: 'display.popularRoutesCount', value: '6' },
+    { key: 'display.adminRecentCount', value: '5' },
+    { key: 'validation.titleMaxLength', value: '200' },
+    { key: 'validation.descMaxLength', value: '1000' },
+    { key: 'validation.commentMaxLength', value: '1000' },
+    { key: 'validation.ratingMin', value: '1' },
+    { key: 'validation.ratingMax', value: '5' },
+  ]
+
+  for (const config of siteConfigDefaults) {
+    await prisma.siteConfig.upsert({
+      where: { key: config.key },
+      update: {},
+      create: config,
+    })
+  }
+  console.log(`Seeded ${siteConfigDefaults.length} site config entries`)
 }
 
 main()

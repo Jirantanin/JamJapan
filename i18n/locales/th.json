@@ -8,6 +8,13 @@
     "home": "หน้าแรก",
     "routes": "เส้นทาง",
     "search": "ค้นหา",
+    "requests": "คำขอเส้นทาง",
+    "myRoutes": "เส้นทางของฉัน",
+    "savedRoutes": "เส้นทางที่บันทึก",
+    "createRoute": "สร้างเส้นทาง",
+    "logout": "ออกจากระบบ",
+    "login": "เข้าสู่ระบบ",
+    "loginGoogle": "เข้าสู่ระบบด้วย Google",
     "admin": "จัดการระบบ"
   },
   "hero": {
@@ -32,6 +39,40 @@
     "fromPrevStep": "จาก step ก่อนหน้า",
     "viewDetail": "ดูรายละเอียด"
   },
+  "request": {
+    "createTitle": "ขอเส้นทางใหม่",
+    "routeTitle": "ชื่อเส้นทางที่ต้องการ",
+    "routeTitlePlaceholder": "เช่น สถานี Shibuya ไป Meiji Shrine",
+    "city": "เมือง",
+    "selectCity": "เลือกเมือง",
+    "startPoint": "จุดเริ่มต้น",
+    "startPointPlaceholder": "เช่น สถานี Shibuya",
+    "endPoint": "จุดสิ้นสุด",
+    "endPointPlaceholder": "เช่น Meiji Shrine",
+    "description": "รายละเอียด / หมายเหตุ",
+    "descriptionPlaceholder": "บอกรายละเอียดเพิ่มเติม เช่น อยากให้ผ่านจุดไหน, ต้องการแบบไหน...",
+    "submit": "ส่งคำขอ",
+    "submitting": "กำลังส่ง...",
+    "submitSuccess": "ส่งคำขอเส้นทางสำเร็จ",
+    "cancel": "ยกเลิก",
+    "requestRoute": "ขอเส้นทาง",
+    "pageTitle": "คำขอเส้นทาง",
+    "pageSubtitle": "โหวตเส้นทางที่อยากให้สร้าง",
+    "sortVotes": "โหวตมากสุด",
+    "sortNewest": "ใหม่ล่าสุด",
+    "loginToVote": "กรุณาเข้าสู่ระบบเพื่อโหวต",
+    "voteFailed": "ไม่สามารถโหวตได้",
+    "loadFailed": "ไม่สามารถโหลดข้อมูลได้",
+    "empty": "ยังไม่มีคำขอเส้นทาง",
+    "beFirst": "เป็นคนแรกที่ขอเส้นทาง",
+    "validation": {
+      "titleRequired": "กรุณากรอกชื่อเส้นทาง",
+      "descRequired": "กรุณากรอกรายละเอียด",
+      "cityRequired": "กรุณาเลือกเมือง",
+      "startRequired": "กรุณากรอกจุดเริ่มต้น",
+      "endRequired": "กรุณากรอกจุดสิ้นสุด"
+    }
+  },
   "difficulty": {
     "easy": "ง่าย",
     "medium": "ปานกลาง",
@@ -51,7 +92,10 @@
   "filter": {
     "city": "เมือง",
     "difficulty": "ความยาก",
-    "all": "ทั้งหมด"
+    "all": "ทั้งหมด",
+    "source": "ประเภท",
+    "official": "Official",
+    "community": "Community"
   },
   "search": {
     "title": "ผลการค้นหา",
@@ -60,7 +104,11 @@
   },
   "error": {
     "loadFailed": "โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่อีกครั้ง",
-    "notFound": "ไม่พบเส้นทางนี้"
+    "notFound": "ไม่พบเส้นทางนี้",
+    "generic": "เกิดข้อผิดพลาด"
+  },
+  "home": {
+    "citySection": "เลือกตามเมือง"
   },
   "footer": {
     "description": "แนะนำเส้นทางเดินเท้าในญี่ปุ่นที่หาทางยาก พร้อม step-by-step และแผนที่",

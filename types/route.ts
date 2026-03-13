@@ -1,3 +1,7 @@
+// Re-export enums from single source of truth
+import type { City, Difficulty, RouteStatus, RouteSource, RequestStatus } from '../config/constants'
+export type { City, Difficulty, RouteStatus, RouteSource, RequestStatus }
+
 export interface Location {
   lat: number
   lng: number
@@ -12,14 +16,6 @@ export interface Step {
   distanceFromPrev?: number
   note?: string
 }
-
-export type Difficulty = 'easy' | 'medium' | 'hard'
-
-export type City = 'tokyo' | 'osaka' | 'kyoto' | 'nara' | 'fukuoka' | 'sapporo' | 'hiroshima' | 'other'
-
-export type RouteStatus = 'draft' | 'published' | 'unpublished'
-export type RouteSource = 'official' | 'community'
-export type RequestStatus = 'pending' | 'fulfilled' | 'closed'
 
 export interface Review {
   id: string

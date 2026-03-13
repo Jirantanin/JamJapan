@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { City, Difficulty, RouteSource } from '~/types/route'
+import { CITIES, DIFFICULTIES } from '~/config/constants'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -18,8 +19,8 @@ const { data: routesData, pending, error } = fetchRoutes({
 
 const displayRoutes = computed(() => routesData.value?.routes || [])
 
-const cities: (City | 'all')[] = ['all', 'tokyo', 'osaka', 'kyoto', 'nara', 'fukuoka', 'sapporo', 'hiroshima']
-const difficulties: (Difficulty | 'all')[] = ['all', 'easy', 'medium', 'hard']
+const cities: (City | 'all')[] = ['all', ...CITIES.filter(c => c !== 'other')]
+const difficulties: (Difficulty | 'all')[] = ['all', ...DIFFICULTIES]
 </script>
 
 <template>

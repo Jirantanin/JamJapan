@@ -1,10 +1,14 @@
 import { requireAdmin } from '../../utils/auth'
 import { getPrisma } from '../../utils/prisma'
 import { transformRoute } from '../../utils/transform'
+import { getSiteConfigNumber } from '../../utils/site-config'
+import { handleApiError } from '../../utils/error-handler'
 
 export default defineEventHandler(async (event) => {
   await requireAdmin(event)
   const prisma = await getPrisma()
+
+  const recentCount = await getSiteConfigNumber('display.adminRecentCount', 5)
 
   const [totalRoutes, byCity, byDifficulty, recentRoutes, totalRequests, pendingRequests] = await Promise.all([
     prisma.route.count(),
@@ -12,7 +16,7 @@ export default defineEventHandler(async (event) => {
     prisma.route.groupBy({ by: ['difficulty'], _count: { id: true } }),
     prisma.route.findMany({
       orderBy: { createdAt: 'desc' },
-      take: 5,
+      take: recentCount,
       include: { steps: true },
     }),
     prisma.routeRequest.count(),

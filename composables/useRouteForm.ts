@@ -1,4 +1,4 @@
-import type { Route } from '~/types/route'
+import type { Route, City, Difficulty } from '~/types/route'
 
 export interface StepFormData {
   order: number
@@ -24,9 +24,9 @@ export interface RouteFormState {
   steps: StepFormData[]
 }
 
+import { CITIES, DIFFICULTIES } from '~/config/constants'
+
 const SLUG_REGEX = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
-const CITIES = ['tokyo', 'osaka', 'kyoto', 'nara', 'fukuoka', 'sapporo', 'hiroshima', 'other']
-const DIFFICULTIES = ['easy', 'medium', 'hard']
 
 function createEmptyState(): RouteFormState {
   return {
@@ -109,8 +109,8 @@ export function useRouteForm(mode: 'create' | 'edit', initialRoute?: Route) {
 
     if (!form.title.trim()) { errors.title = 'required'; valid = false }
     if (!form.description.trim()) { errors.description = 'required'; valid = false }
-    if (!form.city || !CITIES.includes(form.city)) { errors.city = 'required'; valid = false }
-    if (!form.difficulty || !DIFFICULTIES.includes(form.difficulty)) { errors.difficulty = 'required'; valid = false }
+    if (!form.city || !CITIES.includes(form.city as City)) { errors.city = 'required'; valid = false }
+    if (!form.difficulty || !DIFFICULTIES.includes(form.difficulty as Difficulty)) { errors.difficulty = 'required'; valid = false }
 
     if (!form.estimatedMinutes || form.estimatedMinutes <= 0) {
       errors.estimatedMinutes = 'positiveNumber'; valid = false

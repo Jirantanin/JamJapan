@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { CITIES, DIFFICULTIES } from '~/config/constants'
 
 const locationSchema = z.object({
   lat: z.number(),
@@ -14,9 +15,6 @@ const stepSchema = z.object({
   distanceFromPrev: z.number().int().nonnegative().optional().nullable(),
   note: z.string().optional().nullable(),
 })
-
-const CITIES = ['tokyo', 'osaka', 'kyoto', 'nara', 'fukuoka', 'sapporo', 'hiroshima', 'other'] as const
-const DIFFICULTIES = ['easy', 'medium', 'hard'] as const
 
 export const createRouteSchema = z.object({
   id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'id must be kebab-case slug'),
@@ -65,6 +63,4 @@ export const createReviewSchema = z.object({
 export const updateReviewSchema = createReviewSchema.partial()
 
 export type CreateRouteInput = z.infer<typeof createRouteSchema>
-export type UpdateRouteInput = z.infer<typeof updateRouteSchema>
 export type CreateRouteRequestInput = z.infer<typeof createRouteRequestSchema>
-export type UpdateRouteRequestInput = z.infer<typeof updateRouteRequestSchema>

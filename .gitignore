@@ -29,6 +29,9 @@ logs
 /prisma/dev.db
 /prisma/dev.db-journal
 
+# Test results (build artifact)
+/test-results/
+
 # Claude agent outputs (generated per session)
 .claude/output/*.md
 .claude/output/*.json

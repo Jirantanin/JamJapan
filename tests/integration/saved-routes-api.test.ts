@@ -238,9 +238,9 @@ describe('SavedRoute API - Integration Tests', () => {
       })
 
       expect(routes.length).toBeGreaterThanOrEqual(3)
-      expect(routes.some(r => r.id === testRouteId)).toBe(true)
-      expect(routes.some(r => r.id === testRouteId2)).toBe(true)
-      expect(routes.some(r => r.id === testRouteId3)).toBe(true)
+      expect(routes.some((r: any) => r.id === testRouteId)).toBe(true)
+      expect(routes.some((r: any) => r.id === testRouteId2)).toBe(true)
+      expect(routes.some((r: any) => r.id === testRouteId3)).toBe(true)
     })
 
     it('should show correct isSaved state for each route in list', async () => {
@@ -250,9 +250,9 @@ describe('SavedRoute API - Integration Tests', () => {
       })
 
       // Find specific routes and check isSaved
-      const route1 = routes.find(r => r.id === testRouteId)!
-      const route2 = routes.find(r => r.id === testRouteId2)!
-      const route3 = routes.find(r => r.id === testRouteId3)!
+      const route1 = routes.find((r: any) => r.id === testRouteId)!
+      const route2 = routes.find((r: any) => r.id === testRouteId2)!
+      const route3 = routes.find((r: any) => r.id === testRouteId3)!
 
       const isSaved1 = route1.savedBy.some((s: any) => s.userId === testUserId)
       const isSaved2 = route2.savedBy.some((s: any) => s.userId === testUserId)
@@ -273,7 +273,7 @@ describe('SavedRoute API - Integration Tests', () => {
       })
 
       expect(savedRoutes.length).toBeGreaterThan(0)
-      savedRoutes.forEach(sr => {
+      savedRoutes.forEach((sr: any) => {
         expect(sr.userId).toBe(testUserId)
         expect(sr.route).toBeDefined()
       })
@@ -286,7 +286,7 @@ describe('SavedRoute API - Integration Tests', () => {
       })
 
       expect(savedRoutes.length).toBeGreaterThan(0)
-      savedRoutes.forEach(sr => {
+      savedRoutes.forEach((sr: any) => {
         // Each returned route should have the current user in savedBy
         const isSaved = sr.route.savedBy.some((s: any) => s.userId === testUserId)
         expect(isSaved).toBe(true)

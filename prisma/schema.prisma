@@ -136,3 +136,9 @@ model SavedRoute {
   @@unique([routeId, userId])
   @@index([userId])
 }
+
+model SiteConfig {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}

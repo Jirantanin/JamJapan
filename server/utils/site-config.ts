@@ -10,12 +10,18 @@ export async function getSiteConfig(key: string): Promise<string | null> {
     return cached.value
   }
 
-  const prisma = await getPrisma()
-  const config = await prisma.siteConfig.findUnique({ where: { key } })
+  try {
+    const prisma = await getPrisma()
+    const config = await prisma.siteConfig.findUnique({ where: { key } })
 
-  if (config) {
-    cache.set(key, { value: config.value, fetchedAt: Date.now() })
-    return config.value
+    if (config) {
+      cache.set(key, { value: config.value, fetchedAt: Date.now() })
+      return config.value
+    }
+  } catch (error) {
+    // Fail-safe: if SiteConfig table doesn't exist or query fails,
+    // return null so callers use their fallback values
+    console.warn(`[SiteConfig] Failed to fetch key "${key}":`, error)
   }
 
   return null

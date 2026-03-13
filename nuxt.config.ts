@@ -52,7 +52,7 @@ export default defineNuxtConfig({
       // Dynamic routes for published routes
       try {
         const { getPrisma } = await import('./server/utils/prisma')
-        const prisma = getPrisma()
+        const prisma = await getPrisma()
         const routes = await prisma.route.findMany({
           where: { status: 'published' },
           select: { id: true, updatedAt: true },

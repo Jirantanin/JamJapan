@@ -26,6 +26,26 @@ function handleMarkerClick(index: number, step: any) {
     el.scrollIntoView({ behavior: 'smooth', block: 'center' })
   }
 }
+
+// Dynamic SEO Meta Tags
+watch(routeData, (route) => {
+  if (route) {
+    useSeoMeta({
+      title: `${route.title} | JamJapan`,
+      description: route.description,
+      ogTitle: route.title,
+      ogDescription: route.description,
+      ogType: 'article',
+      ogImage: route.coverImage,
+    })
+
+    useHead({
+      link: [
+        { rel: 'canonical', href: `https://jamjapan.com/routes/${route.id}` },
+      ],
+    })
+  }
+}, { immediate: true })
 </script>
 
 <template>

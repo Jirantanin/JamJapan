@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@nuxtjs/i18n',
     'nuxt-auth-utils',
+    '@nuxtjs/sitemap',
   ],
 
   i18n: {
@@ -43,6 +44,29 @@ export default defineNuxtConfig({
         version: '1.0.0',
       },
     },
+  },
+
+  sitemap: {
+    siteUrl: 'https://jamjapan.com',
+    routes: async () => {
+      // Dynamic routes for published routes
+      try {
+        const { getPrisma } = await import('./server/utils/prisma')
+        const prisma = getPrisma()
+        const routes = await prisma.route.findMany({
+          where: { status: 'published' },
+          select: { id: true, updatedAt: true },
+        })
+        return routes.map((route) => ({
+          loc: `/routes/${route.id}`,
+          lastmod: route.updatedAt.toISOString().split('T')[0],
+          priority: 0.8,
+        }))
+      } catch {
+        return []
+      }
+    },
+    exclude: ['/admin/**', '/my/**', '/api/**', '/auth/**'],
   },
 
   vite: {

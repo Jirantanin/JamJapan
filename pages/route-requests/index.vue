@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { City } from '~/types/route'
+import { CITIES } from '~/config/constants'
 
+const { t } = useI18n()
 const toast = useToast()
 const { loggedIn } = useUserSession()
 const { fetchRequests, toggleVote } = useRouteRequests()
@@ -22,25 +24,19 @@ onMounted(() => {
 
 const requests = computed(() => data.value?.requests || [])
 
-const cities: { value: City | 'all'; label: string }[] = [
-  { value: 'all', label: 'ทั้งหมด' },
-  { value: 'tokyo', label: 'โตเกียว' },
-  { value: 'osaka', label: 'โอซากะ' },
-  { value: 'kyoto', label: 'เกียวโต' },
-  { value: 'nara', label: 'นารา' },
-  { value: 'fukuoka', label: 'ฟุกุโอกะ' },
-  { value: 'sapporo', label: 'ซัปโปโร' },
-  { value: 'hiroshima', label: 'ฮิโรชิมา' },
+const cities = [
+  { value: 'all' as const, label: t('city.all') },
+  ...CITIES.filter(c => c !== 'other').map(value => ({ value, label: t(`city.${value}`) })),
 ]
 
 const sortOptions = [
-  { value: 'votes', label: 'โหวตมากสุด' },
-  { value: 'newest', label: 'ใหม่ล่าสุด' },
+  { value: 'votes', label: t('request.sortVotes') },
+  { value: 'newest', label: t('request.sortNewest') },
 ]
 
 async function handleVote(id: string) {
   if (!loggedIn.value) {
-    toast.error('กรุณาเข้าสู่ระบบเพื่อโหวต')
+    toast.error(t('request.loginToVote'))
     return
   }
   votingId.value = id
@@ -48,11 +44,23 @@ async function handleVote(id: string) {
     await toggleVote(id)
     refresh()
   } catch (err: any) {
-    toast.error(err?.data?.statusMessage || 'ไม่สามารถโหวตได้')
+    toast.error(err?.data?.statusMessage || t('request.voteFailed'))
   } finally {
     votingId.value = null
   }
 }
+
+// SEO Meta Tags
+useSeoMeta({
+  title: 'คำขอเส้นทาง | JamJapan',
+  description: 'ดูและโหวตเส้นทางที่นักท่องเที่ยวคนอื่นขอให้สร้างใน JamJapan',
+})
+
+useHead({
+  link: [
+    { rel: 'canonical', href: 'https://jamjapan.com/route-requests' },
+  ],
+})
 </script>
 
 <template>
@@ -60,8 +68,8 @@ async function handleVote(id: string) {
     <!-- Header -->
     <div class="flex items-center justify-between mb-8">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900">คำขอเส้นทาง</h1>
-        <p class="text-sm text-gray-500 mt-1">โหวตเส้นทางที่อยากให้สร้าง</p>
+        <h1 class="text-2xl font-bold text-gray-900">{{ t('request.pageTitle') }}</h1>
+        <p class="text-sm text-gray-500 mt-1">{{ t('request.pageSubtitle') }}</p>
       </div>
       <NuxtLink
         v-if="loggedIn"
@@ -71,7 +79,7 @@ async function handleVote(id: string) {
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
         </svg>
-        ขอเส้นทาง
+        {{ t('request.requestRoute') }}
       </NuxtLink>
     </div>
 
@@ -105,7 +113,7 @@ async function handleVote(id: string) {
 
     <!-- Error -->
     <div v-else-if="error" class="text-center py-16 text-red-400">
-      <p>ไม่สามารถโหลดข้อมูลได้</p>
+      <p>{{ t('request.loadFailed') }}</p>
     </div>
 
     <!-- List -->
@@ -124,13 +132,13 @@ async function handleVote(id: string) {
       <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
-      <p class="text-gray-400 mb-4">ยังไม่มีคำขอเส้นทาง</p>
+      <p class="text-gray-400 mb-4">{{ t('request.empty') }}</p>
       <NuxtLink
         v-if="loggedIn"
         to="/route-requests/create"
         class="inline-flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium"
       >
-        เป็นคนแรกที่ขอเส้นทาง
+        {{ t('request.beFirst') }}
       </NuxtLink>
     </div>
   </div>

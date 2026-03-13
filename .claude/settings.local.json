@@ -21,7 +21,15 @@
       "Bash(npm install prisma @prisma/client nuxt-auth-utils)",
       "mcp__Desktop_Commander__list_directory",
       "mcp__Desktop_Commander__read_file",
-      "Bash(wc -l /c/Users/66984/workspace-coding/JamJapan/server/api/routes/*.ts /c/Users/66984/workspace-coding/JamJapan/composables/*.ts)"
+      "Bash(wc -l /c/Users/66984/workspace-coding/JamJapan/server/api/routes/*.ts /c/Users/66984/workspace-coding/JamJapan/composables/*.ts)",
+      "Bash(wc -l /c/Users/66984/workspace-coding/JamJapan/components/**/*.vue /c/Users/66984/workspace-coding/JamJapan/pages/**/*.vue)",
+      "Bash(for comp in useAdminRoutes useMapSync useMyRoutes useReviews useRouteForm useRouteRequests useRoutes useSavedRoutes useToast)",
+      "Bash(do echo \"=== $comp ===\")",
+      "Bash(done)",
+      "Bash(grep -r \"<h1\\\\|<h2\\\\|<h3\\\\|<article\\\\|<nav\\\\|<main\\\\|<section\" /c/Users/66984/workspace-coding/JamJapan/pages/routes/[id].vue /c/Users/66984/workspace-coding/JamJapan/pages/index.vue)",
+      "Bash(wc -l /c/Users/66984/workspace-coding/JamJapan/components/**/*.vue)",
+      "Bash(for component in AdminConfirmDialog AdminLocationPicker AdminRouteForm AdminRouteTable AdminSidebar AdminStatsCard AdminStepEditor AdminStepForm AdminTagInput AdminToast DifficultyBadge SearchBar VoteButton HeroSection PopularRoutes AppFooter AppHeader RequestCard CreatorInfo ReviewCard ReviewSection RouteCard RouteInfo RouteMap SaveButton SourceBadge StatusBadge StepCard StarRating)",
+      "Bash(do echo \"=== $component ===\")"
     ]
   }
 }

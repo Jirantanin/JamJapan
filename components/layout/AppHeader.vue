@@ -40,7 +40,7 @@ async function handleLogout() {
             to="/route-requests"
             class="text-gray-600 hover:text-primary-600 transition-colors font-medium"
           >
-            คำขอเส้นทาง
+            {{ t('nav.requests') }}
           </NuxtLink>
 
           <!-- Auth: Login or User menu -->
@@ -74,21 +74,21 @@ async function handleLogout() {
                 class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary-600"
                 @click="userMenuOpen = false"
               >
-                เส้นทางของฉัน
+                {{ t('nav.myRoutes') }}
               </NuxtLink>
               <NuxtLink
                 to="/my/saved"
                 class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary-600"
                 @click="userMenuOpen = false"
               >
-                เส้นทางที่บันทึก
+                {{ t('nav.savedRoutes') }}
               </NuxtLink>
               <NuxtLink
                 to="/routes/create"
                 class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary-600"
                 @click="userMenuOpen = false"
               >
-                สร้างเส้นทาง
+                {{ t('nav.createRoute') }}
               </NuxtLink>
               <NuxtLink
                 v-if="user.role === 'ADMIN'"
@@ -102,7 +102,7 @@ async function handleLogout() {
                 class="w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary-600"
                 @click="handleLogout"
               >
-                ออกจากระบบ
+                {{ t('nav.logout') }}
               </button>
             </div>
           </div>
@@ -115,7 +115,7 @@ async function handleLogout() {
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12.545 10.239v3.821h5.445c-.712 2.315-2.647 3.972-5.445 3.972a6.033 6.033 0 110-12.064c1.498 0 2.866.549 3.921 1.453l2.814-2.814A9.969 9.969 0 0012.545 2C7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.748l-9.426-.013z" />
             </svg>
-            เข้าสู่ระบบ
+            {{ t('nav.login') }}
           </a>
         </nav>
 
@@ -186,21 +186,21 @@ async function handleLogout() {
             class="block px-3 py-2 rounded-md text-gray-600 hover:bg-primary-50 hover:text-primary-600"
             @click="mobileMenuOpen = false"
           >
-            เส้นทางของฉัน
+            {{ t('nav.myRoutes') }}
           </NuxtLink>
           <NuxtLink
             to="/my/saved"
             class="block px-3 py-2 rounded-md text-gray-600 hover:bg-primary-50 hover:text-primary-600"
             @click="mobileMenuOpen = false"
           >
-            เส้นทางที่บันทึก
+            {{ t('nav.savedRoutes') }}
           </NuxtLink>
           <NuxtLink
             to="/routes/create"
             class="block px-3 py-2 rounded-md text-gray-600 hover:bg-primary-50 hover:text-primary-600"
             @click="mobileMenuOpen = false"
           >
-            สร้างเส้นทาง
+            {{ t('nav.createRoute') }}
           </NuxtLink>
           <NuxtLink
             v-if="user.role === 'ADMIN'"
@@ -214,7 +214,7 @@ async function handleLogout() {
             class="block w-full text-left px-3 py-2 rounded-md text-gray-600 hover:bg-primary-50 hover:text-primary-600"
             @click="handleLogout(); mobileMenuOpen = false"
           >
-            ออกจากระบบ
+            {{ t('nav.logout') }}
           </button>
         </div>
         <a
@@ -223,7 +223,7 @@ async function handleLogout() {
           class="block px-3 py-2 rounded-md text-primary-600 font-medium hover:bg-primary-50"
           @click="mobileMenuOpen = false"
         >
-          เข้าสู่ระบบด้วย Google
+          {{ t('nav.loginGoogle') }}
         </a>
       </nav>
     </div>

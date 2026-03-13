@@ -3,9 +3,11 @@ const props = withDefaults(defineProps<{
   modelValue: number
   readonly?: boolean
   size?: 'sm' | 'md' | 'lg'
+  maxRating?: number
 }>(), {
   readonly: false,
   size: 'md',
+  maxRating: 5,
 })
 
 const emit = defineEmits<{
@@ -35,7 +37,7 @@ function handleClick(star: number) {
 <template>
   <div class="flex items-center gap-0.5">
     <button
-      v-for="star in 5"
+      v-for="star in maxRating"
       :key="star"
       type="button"
       :class="[sizeClass, getStarClass(star), readonly ? 'cursor-default' : 'cursor-pointer hover:scale-110 transition-transform']"

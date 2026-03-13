@@ -24,7 +24,11 @@ export function transformRoute(
       lng: route.endLng,
       name: route.endName,
     },
-    tags: typeof route.tags === 'string' ? JSON.parse(route.tags) : route.tags,
+    tags: (() => {
+      if (Array.isArray(route.tags)) return route.tags
+      try { return JSON.parse(route.tags as string) }
+      catch { return [] }
+    })(),
     steps: route.steps
       ? route.steps
           .sort((a, b) => a.order - b.order)

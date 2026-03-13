@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Route } from '~/types/route'
+import { CITIES, DIFFICULTIES } from '~/config/constants'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -15,22 +16,8 @@ const props = defineProps<{
 const { form, errors, stepErrors, saving, validate, toCreatePayload, toUpdatePayload, slugify } =
   useRouteForm(props.mode, props.initialRoute)
 
-const cities = [
-  { value: 'tokyo', label: () => t('city.tokyo') },
-  { value: 'osaka', label: () => t('city.osaka') },
-  { value: 'kyoto', label: () => t('city.kyoto') },
-  { value: 'nara', label: () => t('city.nara') },
-  { value: 'fukuoka', label: () => t('city.fukuoka') },
-  { value: 'sapporo', label: () => t('city.sapporo') },
-  { value: 'hiroshima', label: () => t('city.hiroshima') },
-  { value: 'other', label: () => t('city.other') },
-]
-
-const difficulties = [
-  { value: 'easy', label: () => t('difficulty.easy') },
-  { value: 'medium', label: () => t('difficulty.medium') },
-  { value: 'hard', label: () => t('difficulty.hard') },
-]
+const cities = CITIES.map(value => ({ value, label: () => t(`city.${value}`) }))
+const difficulties = DIFFICULTIES.map(value => ({ value, label: () => t(`difficulty.${value}`) }))
 
 function autoSlug() {
   if (props.mode === 'create' && form.title && !form.id) {

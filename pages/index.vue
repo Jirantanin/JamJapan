@@ -3,6 +3,22 @@ const { t } = useI18n()
 const { fetchCities } = useRoutes()
 
 const { data: citiesData, pending: citiesPending } = fetchCities()
+
+// SEO Meta Tags
+useSeoMeta({
+  title: 'JamJapan - เส้นทางเดินเท้าในญี่ปุ่น',
+  description: 'แนะนำเส้นทางเดินเท้าในญี่ปุ่นที่หาทางยาก พร้อม step-by-step guide แผนที่ รายละเอียด และคะแนนจากนักท่องเที่ยว',
+  ogTitle: 'JamJapan - เส้นทางเดินเท้าในญี่ปุ่น',
+  ogDescription: 'แนะนำเส้นทางเดินเท้าในญี่ปุ่นที่หาทางยาก พร้อม step-by-step guide แผนที่ รายละเอียด และคะแนนจากนักท่องเที่ยว',
+  ogType: 'website',
+  twitterCard: 'summary_large_image',
+})
+
+useHead({
+  link: [
+    { rel: 'canonical', href: 'https://jamjapan.com' },
+  ],
+})
 </script>
 
 <template>
@@ -12,7 +28,7 @@ const { data: citiesData, pending: citiesPending } = fetchCities()
     <!-- City Categories -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <h2 class="text-xl font-bold text-gray-900 mb-6">
-        เลือกตามเมือง
+        {{ t('home.citySection') }}
       </h2>
       <!-- Loading skeleton -->
       <div v-if="citiesPending" class="flex flex-wrap gap-3">

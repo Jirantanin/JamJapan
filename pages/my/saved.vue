@@ -19,6 +19,11 @@ function handleSaveToggle(routeId: string, isSaved: boolean) {
     refresh()
   }
 }
+
+// SEO - Hide from search engines (private user page)
+useSeoMeta({
+  robots: 'noindex,follow',
+})
 </script>
 
 <template>

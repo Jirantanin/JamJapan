@@ -3,6 +3,11 @@ definePageMeta({ middleware: 'admin', layout: 'admin' })
 
 const { t } = useI18n()
 const { data: stats, pending, error } = useFetch('/api/admin/stats')
+
+// SEO - Hide from search engines
+useSeoMeta({
+  robots: 'noindex,nofollow',
+})
 </script>
 
 <template>

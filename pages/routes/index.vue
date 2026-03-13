@@ -21,6 +21,18 @@ const displayRoutes = computed(() => routesData.value?.routes || [])
 
 const cities: (City | 'all')[] = ['all', ...CITIES.filter(c => c !== 'other')]
 const difficulties: (Difficulty | 'all')[] = ['all', ...DIFFICULTIES]
+
+// SEO Meta Tags
+useSeoMeta({
+  title: 'เส้นทางเดินเท้าทั้งหมด | JamJapan',
+  description: 'ค้นหาและค้นหาเส้นทางเดินเท้ายอดนิยมในญี่ปุ่น สามารถกรองตามเมืองและระดับความยากได้',
+})
+
+useHead({
+  link: [
+    { rel: 'canonical', href: 'https://jamjapan.com/routes' },
+  ],
+})
 </script>
 
 <template>

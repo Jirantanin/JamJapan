@@ -3,6 +3,22 @@ const { t } = useI18n()
 const { fetchCities } = useRoutes()
 
 const { data: citiesData, pending: citiesPending } = fetchCities()
+
+// SEO Meta Tags
+useSeoMeta({
+  title: 'JamJapan - เส้นทางเดินเท้าในญี่ปุ่น',
+  description: 'แนะนำเส้นทางเดินเท้าในญี่ปุ่นที่หาทางยาก พร้อม step-by-step guide แผนที่ รายละเอียด และคะแนนจากนักท่องเที่ยว',
+  ogTitle: 'JamJapan - เส้นทางเดินเท้าในญี่ปุ่น',
+  ogDescription: 'แนะนำเส้นทางเดินเท้าในญี่ปุ่นที่หาทางยาก พร้อม step-by-step guide แผนที่ รายละเอียด และคะแนนจากนักท่องเที่ยว',
+  ogType: 'website',
+  twitterCard: 'summary_large_image',
+})
+
+useHead({
+  link: [
+    { rel: 'canonical', href: 'https://jamjapan.com' },
+  ],
+})
 </script>
 
 <template>

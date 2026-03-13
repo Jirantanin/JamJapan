@@ -49,6 +49,18 @@ async function handleVote(id: string) {
     votingId.value = null
   }
 }
+
+// SEO Meta Tags
+useSeoMeta({
+  title: 'คำขอเส้นทาง | JamJapan',
+  description: 'ดูและโหวตเส้นทางที่นักท่องเที่ยวคนอื่นขอให้สร้างใน JamJapan',
+})
+
+useHead({
+  link: [
+    { rel: 'canonical', href: 'https://jamjapan.com/route-requests' },
+  ],
+})
 </script>
 
 <template>

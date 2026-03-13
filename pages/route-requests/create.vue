@@ -50,6 +50,19 @@ async function handleSubmit() {
     saving.value = false
   }
 }
+
+// SEO Meta Tags
+useSeoMeta({
+  title: 'ขอเส้นทางใหม่ | JamJapan',
+  description: 'ขอให้สร้างเส้นทางเดินเท้าใหม่ในญี่ปุ่น',
+  robots: 'noindex,follow',
+})
+
+useHead({
+  link: [
+    { rel: 'canonical', href: 'https://jamjapan.com/route-requests/create' },
+  ],
+})
 </script>
 
 <template>

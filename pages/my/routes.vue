@@ -57,6 +57,11 @@ function confirmDelete(id: string) {
   }
   showConfirm.value = true
 }
+
+// SEO - Hide from search engines (private user page)
+useSeoMeta({
+  robots: 'noindex,follow',
+})
 </script>
 
 <template>

@@ -6,14 +6,35 @@ const props = defineProps<{
   isSaved?: boolean
 }>()
 
+const emit = defineEmits<{
+  (e: 'cover-updated', route: Route): void
+}>()
+
 const { t } = useI18n()
-const { loggedIn } = useUserSession()
+const { loggedIn, user } = useUserSession()
 
 const savedState = ref(props.isSaved ?? props.route.isSaved ?? false)
+const isGenerating = ref(false)
+const generateError = ref('')
 
 watch(() => props.isSaved, (v) => {
   if (v !== undefined) savedState.value = v
 })
+
+async function generateCover() {
+  isGenerating.value = true
+  generateError.value = ''
+  try {
+    const updated = await $fetch<Route>(`/api/routes/${props.route.id}/generate-cover`, {
+      method: 'POST',
+    })
+    emit('cover-updated', updated)
+  } catch (err: any) {
+    generateError.value = err?.data?.statusMessage || 'เกิดข้อผิดพลาดในการสร้างรูปปก'
+  } finally {
+    isGenerating.value = false
+  }
+}
 </script>
 
 <template>
@@ -35,6 +56,28 @@ watch(() => props.isSaved, (v) => {
       <RouteSourceBadge :source="route.source" />
       <RouteCreatorInfo v-if="route.createdBy" :creator="route.createdBy" size="sm" />
     </div>
+    <!-- Generate Cover Button (Admin only) -->
+    <div v-if="user?.role === 'ADMIN'" class="mt-3">
+      <button
+        :disabled="isGenerating"
+        class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors"
+        :class="isGenerating
+          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+          : 'bg-primary-50 text-primary-700 hover:bg-primary-100'"
+        @click="generateCover"
+      >
+        <svg v-if="isGenerating" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+        </svg>
+        <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+        {{ isGenerating ? 'กำลังสร้างรูปปก...' : 'สร้างรูปปก AI' }}
+      </button>
+      <p v-if="generateError" class="mt-1 text-xs text-red-500">{{ generateError }}</p>
+    </div>
+
     <p class="text-gray-500 mt-2">
       {{ route.description }}
     </p>

@@ -30,6 +30,10 @@ export default defineNuxtConfig({
         clientSecret: '',
       },
     },
+    geminiApiKey: '',
+    cloudinaryCloudName: '',
+    cloudinaryApiKey: '',
+    cloudinaryApiSecret: '',
   },
 
   nitro: {

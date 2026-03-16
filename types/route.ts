@@ -35,6 +35,7 @@ export interface Route {
   estimatedMinutes: number
   distanceMeters: number
   coverImage: string
+  coverImageThumb?: string
   start: Location
   end: Location
   steps: Step[]

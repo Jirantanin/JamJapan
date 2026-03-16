@@ -23,6 +23,7 @@
     "seed": "npx tsx prisma/seed.ts"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@nuxtjs/i18n": "^10.2.3",
     "@nuxtjs/sitemap": "^7.6.0",
     "@nuxtjs/tailwindcss": "^6.14.0",
@@ -31,6 +32,7 @@
     "@prisma/client": "^7.4.2",
     "@vue-leaflet/vue-leaflet": "^0.10.1",
     "better-sqlite3": "^12.6.2",
+    "cloudinary": "^2.9.0",
     "dotenv": "^17.3.1",
     "leaflet": "^1.9.4",
     "nuxt": "^3.21.1",

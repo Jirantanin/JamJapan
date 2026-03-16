@@ -27,6 +27,13 @@ function handleMarkerClick(index: number, step: any) {
   }
 }
 
+function handleCoverUpdated(updatedRoute: any) {
+  if (routeData.value) {
+    routeData.value.coverImage = updatedRoute.coverImage
+    routeData.value.coverImageThumb = updatedRoute.coverImageThumb
+  }
+}
+
 // Dynamic SEO Meta Tags
 watch(routeData, (route) => {
   if (route) {
@@ -87,8 +94,17 @@ watch(routeData, (route) => {
         {{ t('route.allRoutes') }}
       </NuxtLink>
 
+      <!-- Cover Image (full size) -->
+      <div v-if="routeData.coverImage" class="mb-6 rounded-xl overflow-hidden shadow-sm">
+        <img
+          :src="routeData.coverImage"
+          :alt="routeData.title"
+          class="w-full h-auto max-h-[400px] object-cover"
+        />
+      </div>
+
       <!-- Route Info -->
-      <RouteInfo :route="routeData" :is-saved="routeData.isSaved" />
+      <RouteInfo :route="routeData" :is-saved="routeData.isSaved" @cover-updated="handleCoverUpdated" />
 
       <!-- Map + Steps layout -->
       <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">

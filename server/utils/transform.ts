@@ -14,6 +14,7 @@ export function transformRoute(
     estimatedMinutes: route.estimatedMinutes,
     distanceMeters: route.distanceMeters,
     coverImage: route.coverImage,
+    coverImageThumb: route.coverImageThumb,
     start: {
       lat: route.startLat,
       lng: route.startLng,

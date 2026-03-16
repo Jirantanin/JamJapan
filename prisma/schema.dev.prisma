@@ -36,6 +36,7 @@ model Route {
   estimatedMinutes Int
   distanceMeters   Int
   coverImage       String?
+  coverImageThumb  String?
   startLat         Float
   startLng         Float
   startName        String?

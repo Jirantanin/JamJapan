@@ -3,13 +3,14 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <section class="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white overflow-hidden">
-    <!-- Decorative -->
-    <div class="absolute inset-0 opacity-10">
-      <div class="absolute top-10 left-10 text-8xl">⛩️</div>
-      <div class="absolute bottom-10 right-10 text-6xl">🗾</div>
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-9xl">🚶</div>
-    </div>
+  <section class="relative text-white overflow-hidden">
+    <!-- Background Image -->
+    <img
+      src="/images/generated/hero-bg.jpg"
+      alt=""
+      class="absolute inset-0 w-full h-full object-cover"
+    />
+    <div class="absolute inset-0 bg-gradient-to-br from-primary-900/70 via-primary-800/60 to-primary-700/50" />
 
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
       <div class="text-center max-w-3xl mx-auto">
